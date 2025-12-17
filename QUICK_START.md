@@ -12,7 +12,7 @@ cd OASIS
 # Switch to max-build2 branch
 git checkout max-build2
 
-# Navigate to site directory
+# Navigate to site directory (IMPORTANT: use oasisweb4.com, NOT new-v2)
 cd oasisweb4.com
 
 # Install Vercel CLI (if not already installed)
