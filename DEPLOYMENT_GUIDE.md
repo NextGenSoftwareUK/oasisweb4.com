@@ -6,7 +6,7 @@ This guide explains how to make changes to the OASIS Web4 website and deploy the
 
 **Live Site**: https://www.oasisweb4.com  
 **Repository**: https://github.com/NextGenSoftwareUK/OASIS (max-build2 branch)  
-**Site Location**: `/oasisweb4.com/` directory in the repository (NOT `/oasisweb4 site/new-v2/`)
+**Site Location**: `/oasisweb4.com/` directory in the 
 
 ## Prerequisites
 
