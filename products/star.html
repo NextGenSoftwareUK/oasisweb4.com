@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAR CLI - OASIS</title>
+    <meta name="description" content="Revolutionary interoperable low/no-code generator for metaverses, games, apps, and platforms. Create OAPPs, manage STARNETHolons, and build the OASIS Omniverse.">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Holons diagram styling */
+        .holons-diagram {
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .holons-diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .holons-diagram {
+                margin: 2rem 0;
+            }
+            
+            .holons-diagram img {
+                border-radius: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="../" class="nav-logo">
+                <img src="../oasis-logo.png" alt="OASIS" />
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="../index.html#products" class="nav-link">Products</a>
+                <a href="../index.html#ecosystem" class="nav-link">Ecosystem</a>
+                <a href="../index.html#developers" class="nav-link">Developers</a>
+                <a href="../resources.html" class="nav-link">Resources</a>
+                <a href="../pricing.html" class="nav-link">Pricing</a>
+                <div class="nav-actions-mobile">
+                    <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                    <button class="btn-primary">Start building</button>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                <button class="btn-primary">Start building</button>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="section hero-section" id="home">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">01</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-line">STAR CLI</span>
+                    <span class="title-line">Low/No Code Generator</span>
+                </h1>
+                <p class="hero-tagline">
+                    /// build metaverses. create games. unify platforms.
+                </p>
+                <div class="hero-description">
+                    <p>
+                        Revolutionary interoperable low/no-code generator that unifies all metaverses, games, apps, 
+                        sites, and platforms into one powerful OASIS Omniverse platform. Create entire applications 
+                        with minimal coding.
+                    </p>
+                </div>
+                <div class="hero-actions">
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/star-cli" class="btn-primary" target="_blank">
+                        <span>Get started</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                    <a href="https://oportal.oasisweb4.com/portal" class="btn-text" target="_blank">
+                        <span>Open Portal</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-text">Scroll to explore</div>
+            <div class="scroll-section">
+                <span class="scroll-label">Section</span>
+                <span class="section-number">01</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="section" data-section="01">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">01</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Overview</h2>
+            <div class="section-subtitle">
+                STAR CLI serves as the backend to the OASIS and Our World systems, functioning as both an asset/app store 
+                and the core development platform for the entire ecosystem.
+            </div>
+            <div class="architecture-content">
+                <p class="architecture-description">
+                    Create OAPPs (OASIS Applications), manage STARNETHolons, link dependencies, and publish to STARNET - 
+                    all with minimal coding required. Build entire metaverses, games, and applications that work across 
+                    all platforms and engines.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="section principles-section" data-section="02">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">02</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="principles-grid">
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ A</div>
+                    </div>
+                    <h3 class="principle-title">STARNETHolon Management</h3>
+                    <p class="principle-description">
+                        Full CRUD operations for all STARNETHolon types. Create, edit, delete, publish, and download 
+                        OAPPs, NFTs, Quests, Missions, and more. Version control and rollback capabilities built-in.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ B</div>
+                    </div>
+                    <h3 class="principle-title">DNA System</h3>
+                    <p class="principle-description">
+                        Link any STARNETHolon to any other STARNETHolon as dependencies. Automatic DNA file generation 
+                        and management. Handle complex dependency chains with intelligent resolution.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ C</div>
+                    </div>
+                    <h3 class="principle-title">STARNET Integration</h3>
+                    <p class="principle-description">
+                        Publish OAPPs and assets to STARNET store for distribution. Download and install OAPPs from 
+                        the community. Search and discover assets, templates, and applications.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ D</div>
+                    </div>
+                    <h3 class="principle-title">Low/No Code Development</h3>
+                    <p class="principle-description">
+                        Create entire metaverses, games, and applications with minimal coding. Template system, 
+                        visual wizards, and automatic code generation. Write once, deploy everywhere.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STARNETHolon Types Section -->
+    <section class="section products-section" data-section="03">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">03</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">STARNETHolon Types</h2>
+            <p class="section-subtitle">STAR CLI manages 15+ types of STARNETHolons - the building blocks of the OASIS Omniverse.</p>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-category">APPLICATION</div>
+                    <h3 class="product-title">OAPPs</h3>
+                    <p class="product-description">
+                        OASIS Applications - write once, deploy everywhere. Cross-platform applications that work 
+                        across all metaverses, games, and platforms.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">TEMPLATE</div>
+                    <h3 class="product-title">Templates</h3>
+                    <p class="product-description">
+                        Application templates for rapid development. Pre-built structures for common use cases 
+                        and quick prototyping.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">RUNTIME</div>
+                    <h3 class="product-title">Runtimes</h3>
+                    <p class="product-description">
+                        Execution environments for OAPPs. Configure runtime settings and deployment targets 
+                        for your applications.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">LIBRARY</div>
+                    <h3 class="product-title">Libraries</h3>
+                    <p class="product-description">
+                        Code libraries and frameworks. Reusable components and shared code across OAPPs 
+                        and applications.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">NFT</div>
+                    <h3 class="product-title">NFTs</h3>
+                    <p class="product-description">
+                        Non-fungible tokens with cross-chain support. Create, manage, and distribute NFTs 
+                        across all supported blockchains.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">LOCATION</div>
+                    <h3 class="product-title">GeoNFTs</h3>
+                    <p class="product-description">
+                        Location-based NFTs for geographic applications. Perfect for AR games, location-based 
+                        rewards, and geo-spatial experiences.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">GAMIFICATION</div>
+                    <h3 class="product-title">Quests</h3>
+                    <p class="product-description">
+                        Game quests and objectives. Create interactive quests with rewards, progress tracking, 
+                        and completion criteria.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">MISSION</div>
+                    <h3 class="product-title">Missions</h3>
+                    <p class="product-description">
+                        Mission system for complex game mechanics. Multi-stage missions with dependencies 
+                        and branching paths.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">STORY</div>
+                    <h3 class="product-title">Chapters</h3>
+                    <p class="product-description">
+                        Story chapters for narrative-driven experiences. Link chapters together to create 
+                        immersive storylines.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">INVENTORY</div>
+                    <h3 class="product-title">Inventory Items</h3>
+                    <p class="product-description">
+                        Game items and rewards. Manage inventory systems, item properties, and reward 
+                        distribution across platforms.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">SPACE</div>
+                    <h3 class="product-title">Celestial Spaces</h3>
+                    <p class="product-description">
+                        Virtual spaces for metaverse experiences. Create 3D environments, virtual worlds, 
+                        and immersive spaces.
+                    </p>
+                </div>
+                <div class="product-card">
+                    <div class="product-category">WORLD</div>
+                    <h3 class="product-title">Celestial Bodies</h3>
+                    <p class="product-description">
+                        Virtual worlds and metaverses. Complete virtual environments with their own rules, 
+                        physics, and ecosystems.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Holons Section -->
+    <section class="section principles-section" data-section="04">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">04</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Holons: Unlocking Deep Interoperability</h2>
+            <p class="section-subtitle">
+                Holons are self-contained data modules that provide a universal data format, enabling true interoperability 
+                across all Web2 and Web3 technologies, platforms, and engines.
+            </p>
+            <div class="principles-grid">
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ A</div>
+                    </div>
+                    <h3 class="principle-title">Universal Data Format</h3>
+                    <p class="principle-description">
+                        Holons provide a standardized data structure that works across all providers - MongoDB, IPFS, 
+                        Ethereum, Solana, and 50+ more. Write once, store anywhere, access everywhere.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ B</div>
+                    </div>
+                    <h3 class="principle-title">Cross-Platform Compatibility</h3>
+                    <p class="principle-description">
+                        The same Holon works seamlessly across JavaScript, Unity, Unreal, and any other engine. 
+                        Platform-agnostic data that moves freely between Web2 and Web3 systems.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ C</div>
+                    </div>
+                    <h3 class="principle-title">Provider Independence</h3>
+                    <p class="principle-description">
+                        Holons are stored with provider-specific keys while maintaining a universal structure. 
+                        Switch providers without data migration - HyperDrive handles the translation automatically.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ D</div>
+                    </div>
+                    <h3 class="principle-title">Shared STARNETHolons</h3>
+                    <p class="principle-description">
+                        All STARNETHolons (OAPPs, Quests, NFTs, etc.) are built on Holons. This means they can be 
+                        shared and reused across any OAPP, regardless of platform or engine. Create once, use everywhere.
+                    </p>
+                </div>
+            </div>
+            <div class="architecture-content" style="margin-top: 3rem;">
+                <div class="holons-diagram">
+                    <img src="holons-and-zomes.png" alt="Holons and Zomes Diagram - Explaining the relationship between Holons and Zomes in the OASIS architecture" />
+                </div>
+                <p class="architecture-description">
+                    The Holonic architecture is the foundation of OASIS interoperability. By standardizing data at the 
+                    Holon level, we enable deep interoperability where Quests created in one game work in another, NFTs 
+                    from one platform are usable in all platforms, and OAPPs share data seamlessly across the entire 
+                    OASIS Omniverse ecosystem.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section class="section code-section" data-section="05">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">05</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Getting Started</h2>
+            <div class="code-header">
+                <div class="code-intro">
+                    <h3 class="code-title">Create Your First OAPP</h3>
+                    <p class="code-description">
+                        STAR CLI makes it easy to create OAPPs, manage STARNETHolons, and publish to STARNET. 
+                        Get started in minutes with the Light Wizard or use commands directly.
+                    </p>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/star-cli" class="link-button" target="_blank">
+                        <span>View full documentation</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="code-examples">
+                <div class="code-tabs">
+                    <button class="code-tab active" data-tab="install">
+                        <span>[ INSTALLATION ]</span>
+                        <span class="code-tab-label">Install</span>
+                    </button>
+                    <button class="code-tab" data-tab="create">
+                        <span>[ CREATE_OAPP ]</span>
+                        <span class="code-tab-label">Create</span>
+                    </button>
+                    <button class="code-tab" data-tab="publish">
+                        <span>[ PUBLISH_STARNET ]</span>
+                        <span class="code-tab-label">Publish</span>
+                    </button>
+                </div>
+                <div class="code-content">
+                    <div class="code-block active" data-code="install">
+                        <div class="code-block-header">
+                            <span class="code-block-title">Installation</span>
+                            <span class="code-block-subtitle">Get STAR CLI up and running</span>
+                        </div>
+                        <div class="code-block-hint">[ Hover ]</div>
+                        <pre><code># Clone the OASIS repository
+git clone https://github.com/NextGenSoftwareUK/OASIS.git
+cd OASIS
+
+# Navigate to STAR CLI
+cd "STAR ODK/NextGenSoftware.OASIS.STAR.CLI"
+
+# Build the CLI
+dotnet build
+
+# Run STAR CLI
+dotnet run
+
+# The CLI will guide you through:
+# 1. Avatar authentication
+# 2. Provider selection
+# 3. Initial configuration</code></pre>
+                    </div>
+                    <div class="code-block" data-code="create">
+                        <div class="code-block-header">
+                            <span class="code-block-title">Create OAPP</span>
+                            <span class="code-block-subtitle">Create your first OASIS Application</span>
+                        </div>
+                        <div class="code-block-hint">[ Hover ]</div>
+                        <pre><code># Start the Light Wizard (interactive)
+star light wiz
+
+# Or create directly
+star light "My First OAPP" \
+  --description "A sample OAPP" \
+  --template "basic"
+
+# STAR CLI creates:
+# - OAPP structure
+# - DNA file
+# - Basic configuration
+# - Dependency management
+
+# Result: Ready-to-deploy OAPP</code></pre>
+                    </div>
+                    <div class="code-block" data-code="publish">
+                        <div class="code-block-header">
+                            <span class="code-block-title">Publish to STARNET</span>
+                            <span class="code-block-subtitle">Share your OAPP with the community</span>
+                        </div>
+                        <div class="code-block-hint">[ Hover ]</div>
+                        <pre><code># Publish OAPP to STARNET
+star seed "My First OAPP" \
+  --version "1.0.0" \
+  --description "My first OASIS Application"
+
+# Publish supporting STARNETHolons
+star seed quest "Tutorial Quest"
+star seed nft "Character Collection"
+
+# Download published OAPP
+star download oapp "My First OAPP"
+
+# STARNET handles:
+# - Version control
+# - Dependency resolution
+# - Distribution
+# - Discovery</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section principles-section" data-section="06">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">06</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Use Cases</h2>
+            <div class="principles-grid">
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ 01</div>
+                    </div>
+                    <h3 class="principle-title">Metaverse Development</h3>
+                    <p class="principle-description">
+                        Create entire metaverses with minimal coding. Generate Celestial Bodies, Spaces, Quests, 
+                        and NFTs. Link dependencies to build complex virtual worlds.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ 02</div>
+                    </div>
+                    <h3 class="principle-title">Game Creation</h3>
+                    <p class="principle-description">
+                        Build games with Quests, Missions, Inventory Items, and Chapters. Create cross-platform 
+                        gameplay with shared assets and progression systems.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ 03</div>
+                    </div>
+                    <h3 class="principle-title">Application Development</h3>
+                    <p class="principle-description">
+                        Develop OAPPs that work across all platforms. Write once, deploy everywhere. Use templates 
+                        and libraries to accelerate development.
+                    </p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-header">
+                        <div class="principle-icon"></div>
+                        <div class="principle-number">/ 04</div>
+                    </div>
+                    <h3 class="principle-title">Asset Management</h3>
+                    <p class="principle-description">
+                        Manage NFTs, GeoNFTs, and digital assets. Create collections, link dependencies, and 
+                        publish to STARNET for distribution.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Products</h4>
+                    <a href="identity.html">Identity & Access</a>
+                    <a href="data.html">Data & Storage</a>
+                    <a href="nfts.html">NFTs & Digital Assets</a>
+                    <a href="smart-contracts.html">Smart Contracts</a>
+                    <a href="bridges.html">Interoperability & Bridges</a>
+                    <a href="star.html">STAR CLI</a>
+                    <a href="infrastructure.html">Infrastructure & Tools</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Developers</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/star-cli" target="_blank">STAR CLI Docs</a>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/api-reference/api_reference" target="_blank">API Reference</a>
+                    <a href="../index.html#developers">Code Examples</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">GitHub</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="https://oportal.oasisweb4.com/portal" target="_blank">OASIS Portal</a>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Support</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">About</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Contribute</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <a href="https://x.com/oasisweb4" target="_blank">Twitter</a>
+                    <a href="https://discord.gg/RU6Z8YJ" target="_blank">Discord</a>
+                    <a href="https://t.me/oasisweb4chat" target="_blank">Telegram</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Support</a>
+                </div>
+                <div class="footer-copyright">© 2025 OASIS. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
+

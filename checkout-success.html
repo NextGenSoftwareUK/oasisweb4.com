@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Success - OASIS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .success-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+        }
+        .success-content {
+            max-width: 600px;
+            text-align: center;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: var(--text-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-primary);
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+        .success-title {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+        .success-message {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+        .success-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="oasis-logo.png" alt="OASIS" />
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html#products" class="nav-link">Products</a>
+                <a href="index.html#ecosystem" class="nav-link">Ecosystem</a>
+                <a href="index.html#developers" class="nav-link">Developers</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
+                <div class="nav-actions-mobile">
+                    <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                    <button class="btn-primary">Start building</button>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                <button class="btn-primary">Start building</button>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="success-container">
+        <div class="success-content">
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">Subscription Activated</h1>
+            <p class="success-message">
+                Thank you for subscribing to OASIS! Your subscription has been activated and you now have access to all the features included in your plan.
+            </p>
+            <p class="success-message" style="font-size: 0.875rem; color: var(--text-tertiary);">
+                You will receive a confirmation email shortly with your subscription details and API access information.
+            </p>
+            <div class="success-actions">
+                <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/getting-started" class="btn-primary" target="_blank">
+                    <span>Get Started</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </a>
+                <a href="index.html" class="btn-text">Return Home</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Social Media</h4>
+                    <a href="https://x.com/oasisweb4" target="_blank">X (Twitter)</a>
+                    <a href="https://discord.gg/RU6Z8YJ" target="_blank">Discord</a>
+                    <a href="https://t.me/oasisweb4chat" target="_blank">Telegram</a>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/additional-resources/oasis-white-paper-nov-2024" target="_blank">Whitepaper</a>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                </div>
+                <div class="footer-col">
+                    <h4>For the developers</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/core-architecture/starnet-web-ui-overview" target="_blank">OASIS Dashboard</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">OASIS Github</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Ecosystem</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/#supported-providers" target="_blank">Ecosystem</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Careers</h4>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Contribute</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Support</a>
+                </div>
+                <div class="footer-copyright">© 2025 OASIS</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

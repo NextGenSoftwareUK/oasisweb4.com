@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - OASIS</title>
+    <meta name="description" content="Choose your OASIS subscription plan. Bronze, Silver, Gold, and Enterprise plans available.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Pricing-specific styles */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+            width: 100%;
+        }
+
+        .pricing-card {
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--text-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--text-primary);
+            background: linear-gradient(to bottom, rgba(17, 17, 17, 0.95), rgba(10, 10, 10, 0.95));
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            right: 2rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-plan-name {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .pricing-plan-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .pricing-price {
+            margin-bottom: 2rem;
+        }
+
+        .pricing-amount {
+            font-size: 3rem;
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .pricing-period {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            font-weight: 300;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .pricing-cta:hover {
+            background-color: var(--text-secondary);
+        }
+
+        .pricing-cta.contact {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .pricing-cta.contact:hover {
+            border-color: var(--text-primary);
+            background-color: var(--hover-bg);
+        }
+
+        .pricing-cta:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pricing-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-error {
+            padding: 2rem;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            margin-bottom: 2rem;
+            border-radius: 0.5rem;
+        }
+
+        .pricing-limit {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-top: 0.5rem;
+        }
+
+        .pricing-comparison {
+            margin-top: 4rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table th {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 400;
+        }
+
+        .comparison-table td {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 300;
+        }
+
+        .comparison-table tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .comparison-check {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .comparison-unlimited {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="oasis-logo.png" alt="OASIS" />
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html#products" class="nav-link">Products</a>
+                <a href="index.html#ecosystem" class="nav-link">Ecosystem</a>
+                <a href="index.html#developers" class="nav-link">Developers</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
+                <a href="products/mcp.html" class="nav-link">MCP Server</a>
+                <div class="nav-actions-mobile">
+                    <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                    <button class="btn-primary">Start building</button>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                <button class="btn-primary">Start building</button>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Section 01: Hero -->
+    <section class="section hero-section" id="home" data-section="01">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">01</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">04</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-line">Pricing</span>
+                </h1>
+                <p class="hero-tagline">
+                    /// choose your plan. scale as you grow.
+                </p>
+                <div class="hero-description">
+                    <p>
+                        Flexible subscription plans designed for developers, startups, and enterprises. 
+                        Access OASIS via direct API or MCP Server for IDEs—same subscription, same limits. 
+                        Start with Bronze and upgrade as your needs grow.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-text">Scroll to explore</div>
+            <div class="scroll-section">
+                <span class="section-bracket">[</span>
+                <span class="section-number">01</span>
+                <span class="section-divider">/</span>
+                <span class="section-total">04</span>
+                <span class="section-bracket">]</span>
+            </div>
+            <div class="scroll-label">Pricing</div>
+        </div>
+    </section>
+
+    <!-- Section 02: Plans -->
+    <section class="section products-section" id="plans" data-section="02">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">02</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">04</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">OASIS API Subscription Plans</h2>
+            <p class="section-subtitle">Select the plan that fits your needs. All plans include access to the full OASIS API via direct API calls or <a href="products/mcp.html" style="color: var(--text-primary); text-decoration: underline;">MCP Server</a>.</p>
+            
+            <div id="pricingError" class="pricing-error" style="display: none;"></div>
+            
+            <div id="pricingLoading" class="pricing-loading">
+                <span>Loading plans...</span>
+            </div>
+            
+            <div id="pricingGrid" class="pricing-grid" style="display: none;"></div>
+        </div>
+    </section>
+
+    <!-- Section 03: Comparison -->
+    <section class="section principles-section" id="comparison" data-section="03">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">03</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">04</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Plan Comparison</h2>
+            <p class="section-subtitle">Compare features across all plans to find the right fit for your project.</p>
+            
+            <div class="pricing-comparison">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Bronze</th>
+                            <th>Silver</th>
+                            <th>Gold</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monthly Price</td>
+                            <td>$9</td>
+                            <td>$29</td>
+                            <td>$99</td>
+                            <td>Custom</td>
+                        </tr>
+                        <tr>
+                            <td>API Requests/Month</td>
+                            <td>10,000</td>
+                            <td>100,000</td>
+                            <td>1,000,000</td>
+                            <td class="comparison-unlimited">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Storage</td>
+                            <td>1 GB</td>
+                            <td>10 GB</td>
+                            <td>100 GB</td>
+                            <td class="comparison-unlimited">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Support Level</td>
+                            <td>Community</td>
+                            <td>Email</td>
+                            <td>Priority</td>
+                            <td>Dedicated</td>
+                        </tr>
+                        <tr>
+                            <td>Analytics</td>
+                            <td class="comparison-check">✓</td>
+                            <td class="comparison-check">✓</td>
+                            <td class="comparison-check">✓ Advanced</td>
+                            <td class="comparison-check">✓ Custom</td>
+                        </tr>
+                        <tr>
+                            <td>Priority Processing</td>
+                            <td></td>
+                            <td class="comparison-check">✓</td>
+                            <td class="comparison-check">✓</td>
+                            <td class="comparison-check">✓</td>
+                        </tr>
+                        <tr>
+                            <td>Custom Integrations</td>
+                            <td></td>
+                            <td></td>
+                            <td class="comparison-check">✓</td>
+                            <td class="comparison-check">✓</td>
+                        </tr>
+                        <tr>
+                            <td>SLA & SSO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="comparison-check">✓</td>
+                        </tr>
+                        <tr>
+                            <td>On-premise Deployment</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="comparison-check">✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 04: MCP Server -->
+    <section class="section products-section" id="mcp" data-section="04">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">04</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">04</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">MCP Server for IDEs</h2>
+            <p class="section-subtitle">Access OASIS directly from Cursor, VS Code, and other MCP-compatible IDEs. Same subscription, same limits—just a better interface.</p>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <a href="products/mcp.html" class="link-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <span>View MCP Server Details</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Trial</div>
+                    <div class="pricing-plan-name">14-Day Trial</div>
+                    <div class="pricing-plan-description">Full access to all features, no credit card required</div>
+                    <div class="pricing-price">
+                        <div class="pricing-amount">Free</div>
+                        <div class="pricing-period">for 14 days</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Unlimited API calls</li>
+                        <li>All features included</li>
+                        <li>Smart contract generation</li>
+                        <li>A2A Protocol tools</li>
+                        <li>Priority email support</li>
+                        <li>All MCP tools available</li>
+                        <li>No credit card required</li>
+                    </ul>
+                    <a href="products/mcp.html#get-started" class="pricing-cta">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-plan-name">Free</div>
+                    <div class="pricing-plan-description">Perfect for testing and exploration</div>
+                    <div class="pricing-price">
+                        <div class="pricing-amount">$0</div>
+                        <div class="pricing-period">/month</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>100 API calls per month</li>
+                        <li>Read-only operations</li>
+                        <li>Basic NFT operations</li>
+                        <li>Community support</li>
+                        <li>All MCP tools available</li>
+                    </ul>
+                    <a href="products/mcp.html#get-started" class="pricing-cta">Get Started</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-plan-name">Bronze</div>
+                    <div class="pricing-plan-description">For developers getting started</div>
+                    <div class="pricing-price">
+                        <div class="pricing-amount">$9</div>
+                        <div class="pricing-period">/month</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>10,000 API calls per month</li>
+                        <li>1 GB storage</li>
+                        <li>All read operations</li>
+                        <li>Basic write operations</li>
+                        <li>Community support</li>
+                        <li>All MCP tools available</li>
+                    </ul>
+                    <a href="products/mcp.html#get-started" class="pricing-cta">Subscribe</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Popular</div>
+                    <div class="pricing-plan-name">Silver</div>
+                    <div class="pricing-plan-description">For individual developers and small projects</div>
+                    <div class="pricing-price">
+                        <div class="pricing-amount">$29</div>
+                        <div class="pricing-period">/month</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>100,000 API calls per month</li>
+                        <li>10 GB storage</li>
+                        <li>All operations</li>
+                        <li>NFT minting and transfers</li>
+                        <li>Wallet creation and management</li>
+                        <li>Priority processing</li>
+                        <li>Email support</li>
+                        <li>All MCP tools available</li>
+                    </ul>
+                    <a href="products/mcp.html#get-started" class="pricing-cta">Subscribe</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-plan-name">Gold</div>
+                    <div class="pricing-plan-description">For teams and production applications</div>
+                    <div class="pricing-price">
+                        <div class="pricing-amount">$99</div>
+                        <div class="pricing-period">/month</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>1,000,000 API calls per month</li>
+                        <li>100 GB storage</li>
+                        <li>All features included</li>
+                        <li>Smart contract generation</li>
+                        <li>A2A Protocol tools</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority email support</li>
+                        <li>All MCP tools available</li>
+                    </ul>
+                    <a href="products/mcp.html#get-started" class="pricing-cta">Subscribe</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-plan-name">Enterprise</div>
+                    <div class="pricing-plan-description">For organizations with custom needs</div>
+                    <div class="pricing-price">
+                        <div class="pricing-amount">Custom</div>
+                        <div class="pricing-period"></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Unlimited API calls</li>
+                        <li>Unlimited storage</li>
+                        <li>All features included</li>
+                        <li>Custom integrations</li>
+                        <li>SLA & SSO</li>
+                        <li>Dedicated support</li>
+                        <li>On-premise deployment</li>
+                        <li>All MCP tools available</li>
+                    </ul>
+                    <a href="mailto:sales@oasisweb4.com?subject=Enterprise Plan Inquiry" class="pricing-cta contact">Contact Sales</a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 3rem; padding: 2rem; border: 1px solid var(--border-color); background-color: var(--bg-secondary); max-width: 800px; margin-left: auto; margin-right: auto;">
+                <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin: 0; text-align: center;">
+                    <strong style="color: var(--text-primary);">Unified Subscription:</strong> Your OASIS subscription works for both direct API access and MCP Server access. 
+                    Same limits, same features—choose how you want to interact with OASIS. 
+                    <a href="products/mcp.html" style="color: var(--text-primary); text-decoration: underline;">Learn more about MCP Server</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Social Media</h4>
+                    <a href="https://x.com/oasisweb4" target="_blank">X (Twitter)</a>
+                    <a href="https://discord.gg/RU6Z8YJ" target="_blank">Discord</a>
+                    <a href="https://t.me/oasisweb4chat" target="_blank">Telegram</a>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/additional-resources/oasis-white-paper-nov-2024" target="_blank">Whitepaper</a>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                </div>
+                <div class="footer-col">
+                    <h4>For the developers</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/core-architecture/starnet-web-ui-overview" target="_blank">OASIS Dashboard</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">OASIS Github</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Ecosystem</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/#supported-providers" target="_blank">Ecosystem</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Careers</h4>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Contribute</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Support</a>
+                </div>
+                <div class="footer-copyright">© 2025 OASIS</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal (same as index.html) -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeLoginModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()">×</button>
+            
+            <div class="auth-container">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <div class="auth-logo-circle">
+                            <div class="auth-logo-inner">O</div>
+                        </div>
+                    </div>
+                    <p class="auth-label">Avatar Access</p>
+                </div>
+                
+                <div class="auth-title-section">
+                    <div class="auth-subtitle">Connect Identity</div>
+                    <h2 class="auth-title">Connect your avatar</h2>
+                    <p class="auth-description">
+                        Sign in with your OASIS avatar to access your multi-chain wallets and data.
+                    </p>
+                </div>
+
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-mode="login" onclick="switchAuthMode('login')">
+                        Sign in
+                    </button>
+                    <button class="auth-tab" data-mode="register" onclick="switchAuthMode('register')">
+                        Create avatar
+                    </button>
+                </div>
+
+                <form id="authForm" class="auth-form" onsubmit="handleAuthSubmit(event)">
+                    <div class="auth-field">
+                        <label class="auth-label-text">
+                            <span id="usernameLabel">Username or email</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username"
+                            class="auth-input" 
+                            placeholder="email@oasis.com"
+                            required
+                        />
+                    </div>
+
+                    <div id="registerFields" style="display: none;">
+                        <div class="auth-field">
+                            <label class="auth-label-text">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email"
+                                class="auth-input" 
+                                placeholder="you@example.com"
+                            />
+                        </div>
+
+                        <div class="auth-field-row">
+                            <div class="auth-field">
+                                <label class="auth-label-text">First name</label>
+                                <input 
+                                    type="text" 
+                                    id="firstName" 
+                                    name="firstName"
+                                    class="auth-input" 
+                                    placeholder="Optional"
+                                />
+                            </div>
+                            <div class="auth-field">
+                                <label class="auth-label-text">Last name</label>
+                                <input 
+                                    type="text" 
+                                    id="lastName" 
+                                    name="lastName"
+                                    class="auth-input" 
+                                    placeholder="Optional"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="auth-field">
+                        <label class="auth-label-text">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                            class="auth-input" 
+                            placeholder="••••••••"
+                            required
+                        />
+                    </div>
+
+                    <div id="authError" class="auth-error" style="display: none;"></div>
+
+                    <div class="auth-actions">
+                        <button type="submit" class="btn-primary auth-submit" id="authSubmitBtn">
+                            <span id="authSubmitText">Sign in</span>
+                        </button>
+                        <button type="button" class="btn-text auth-skip" onclick="useDemoAvatar()">
+                            Skip for now
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Subscription API Configuration
+        // Try to auto-detect API URL, or configure manually
+        function getApiBaseUrl() {
+            // Check if API URL is set in localStorage (for easy configuration)
+            // To set: localStorage.setItem('oasis_api_url', 'http://localhost:PORT/api')
+            const storedUrl = localStorage.getItem('oasis_api_url');
+            if (storedUrl) {
+                return storedUrl;
+            }
+            
+            // Try production URL first
+            if (window.location.hostname === 'oasisweb4.com' || window.location.hostname === 'www.oasisweb4.com') {
+                return 'https://api.oasisweb4.com/api';
+            }
+            
+            // Development: Use local proxy to avoid mixed content issues
+            // The proxy runs on the same server (localhost:8080) so no mixed content
+            // Proxies to: https://localhost:5004/api
+            return window.location.origin + '/api-proxy/api';
+        }
+        
+        const API_BASE_URL = getApiBaseUrl();
+        
+        // Log API URL for debugging (remove in production)
+        console.log('OASIS API Base URL:', API_BASE_URL);
+
+        // Load plans from API
+        async function loadPlans() {
+            const loadingEl = document.getElementById('pricingLoading');
+            const gridEl = document.getElementById('pricingGrid');
+            const errorEl = document.getElementById('pricingError');
+
+            try {
+                loadingEl.style.display = 'flex';
+                gridEl.style.display = 'none';
+                errorEl.style.display = 'none';
+
+                const response = await fetch(`${API_BASE_URL}/subscription/plans`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load plans: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const isError = data.isError ?? data.IsError;
+                const message = data.message ?? data.Message;
+                if (isError) {
+                    throw new Error(message || 'Error loading plans');
+                }
+
+                const plans = data.result ?? data.Result ?? [];
+                
+                if (plans.length === 0) {
+                    throw new Error('No plans available');
+                }
+
+                displayPlans(plans);
+                loadingEl.style.display = 'none';
+                gridEl.style.display = 'grid';
+            } catch (error) {
+                console.error('Error loading plans:', error);
+                loadingEl.style.display = 'none';
+                errorEl.textContent = `Failed to load plans: ${error.message}. Current API URL: ${API_BASE_URL}. To change it, run in browser console: localStorage.setItem('oasis_api_url', 'http://localhost:PORT/api')`;
+                errorEl.style.display = 'block';
+                
+                // Fallback: Show default plans if API fails
+                displayFallbackPlans();
+            }
+        }
+
+        function displayPlans(plans) {
+            const gridEl = document.getElementById('pricingGrid');
+            gridEl.innerHTML = '';
+
+            plans.forEach((plan, index) => {
+                const isFeatured = plan.id === 'silver' || plan.id === 'gold';
+                const isEnterprise = plan.isContactSales;
+                
+                const card = document.createElement('div');
+                card.className = `pricing-card ${isFeatured ? 'featured' : ''}`;
+                
+                if (isFeatured) {
+                    card.innerHTML = `<div class="pricing-badge">Popular</div>`;
+                }
+
+                const priceText = isEnterprise 
+                    ? 'Contact us' 
+                    : `$${plan.priceMonthly.toFixed(2)}`;
+                
+                const periodText = isEnterprise 
+                    ? '' 
+                    : '<span class="pricing-period">/month</span>';
+
+                let featuresList = plan.features.map(feature => 
+                    `<li>${feature}</li>`
+                ).join('');
+
+                // Add limits as features
+                const requestsText = plan.maxRequestsPerMonth === -1 
+                    ? 'Unlimited API requests' 
+                    : `${plan.maxRequestsPerMonth.toLocaleString()} API requests/month`;
+                const storageText = plan.maxStorageGB === -1 
+                    ? 'Unlimited storage' 
+                    : `${plan.maxStorageGB} GB storage`;
+
+                featuresList += `<li>${requestsText}</li>`;
+                featuresList += `<li>${storageText}</li>`;
+                featuresList += `<li>${plan.supportLevel} support</li>`;
+
+                card.innerHTML += `
+                    <div class="pricing-plan-name">${plan.name}</div>
+                    <div class="pricing-plan-description">${plan.name} plan with ${plan.supportLevel.toLowerCase()} support</div>
+                    <div class="pricing-price">
+                        <div class="pricing-amount">${priceText}</div>
+                        ${periodText}
+                    </div>
+                    <ul class="pricing-features">
+                        ${featuresList}
+                    </ul>
+                    ${isEnterprise 
+                        ? `<a href="mailto:sales@oasisweb4.com?subject=Enterprise Plan Inquiry" class="pricing-cta contact">Contact Sales</a>`
+                        : `<button class="pricing-cta" onclick="handleCheckout('${plan.id}')" data-plan-id="${plan.id}">Choose ${plan.name}</button>`
+                    }
+                `;
+
+                gridEl.appendChild(card);
+            });
+        }
+
+        function displayFallbackPlans() {
+            // Fallback plans if API is unavailable
+            const fallbackPlans = [
+                {
+                    id: 'bronze',
+                    name: 'Bronze',
+                    priceMonthly: 9.0,
+                    features: ['Starter API limits', 'Community support', 'Basic analytics'],
+                    maxRequestsPerMonth: 10000,
+                    maxStorageGB: 1,
+                    supportLevel: 'Community'
+                },
+                {
+                    id: 'silver',
+                    name: 'Silver',
+                    priceMonthly: 29.0,
+                    features: ['Higher API limits', 'Email support', 'Basic analytics', 'Priority processing'],
+                    maxRequestsPerMonth: 100000,
+                    maxStorageGB: 10,
+                    supportLevel: 'Email'
+                },
+                {
+                    id: 'gold',
+                    name: 'Gold',
+                    priceMonthly: 99.0,
+                    features: ['Premium API limits', 'Priority support', 'Advanced analytics', 'Custom integrations'],
+                    maxRequestsPerMonth: 1000000,
+                    maxStorageGB: 100,
+                    supportLevel: 'Priority'
+                },
+                {
+                    id: 'enterprise',
+                    name: 'Enterprise',
+                    priceMonthly: 0,
+                    features: ['Custom limits', 'SLA & SSO', 'Dedicated support', 'On-premise deployment'],
+                    maxRequestsPerMonth: -1,
+                    maxStorageGB: -1,
+                    supportLevel: 'Dedicated',
+                    isContactSales: true
+                }
+            ];
+            displayPlans(fallbackPlans);
+        }
+
+        async function handleCheckout(planId) {
+            const button = document.querySelector(`[data-plan-id="${planId}"]`);
+            if (!button) return;
+
+            const originalText = button.textContent;
+            button.disabled = true;
+            button.textContent = 'Processing...';
+
+            try {
+                // Get user email if available from auth
+                let customerEmail = null;
+                try {
+                    const authData = localStorage.getItem('oasis_auth');
+                    if (authData) {
+                        const auth = JSON.parse(authData);
+                        if (auth.avatar && auth.avatar.email) {
+                            customerEmail = auth.avatar.email;
+                        }
+                    }
+                } catch (e) {
+                    // Ignore auth errors
+                }
+
+                const response = await fetch(`${API_BASE_URL}/subscription/checkout/session`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        planId: planId,
+                        successUrl: `${window.location.origin}/checkout-success.html`,
+                        cancelUrl: `${window.location.origin}/pricing.html`,
+                        customerEmail: customerEmail
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    const errMsg = errorData.message ?? errorData.Message;
+                    throw new Error(errMsg || `Checkout failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const checkoutUrl = data.sessionUrl ?? data.SessionUrl ?? data.url ?? data.Url ?? data.result?.sessionUrl ?? data.result?.SessionUrl;
+
+                if (!checkoutUrl) {
+                    throw new Error('No checkout URL returned from API');
+                }
+
+                // Redirect to Stripe checkout
+                window.location.href = checkoutUrl;
+            } catch (error) {
+                console.error('Checkout error:', error);
+                alert(`Failed to start checkout: ${error.message}\n\nPlease ensure the API is running and Stripe is configured.`);
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
+
+        // Load plans on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPlans();
+        });
+
+        // Fallback login functions if script.js doesn't load
+        if (typeof openLoginModal === 'undefined') {
+            window.openLoginModal = function() {
+                const modal = document.getElementById('loginModal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+            };
+        }
+        if (typeof closeLoginModal === 'undefined') {
+            window.closeLoginModal = function() {
+                const modal = document.getElementById('loginModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            };
+        }
+    </script>
+</body>
+</html>
+

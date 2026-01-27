@@ -197,6 +197,24 @@ To update a link, search for the old URL in `index.html` and replace it.
 - **Section content**: Each section has a `data-section` attribute
 - **Footer links**: Edit footer section starting around line 566
 
+## Subscription API (Pricing / Checkout)
+
+The pricing page (`pricing.html`) and checkout flow use the OASIS ONODE API:
+
+- **Plans**: `GET https://api.oasisweb4.com/api/subscription/plans`
+- **Checkout**: `POST https://api.oasisweb4.com/api/subscription/checkout/session`
+
+For checkout to work:
+
+1. **ONODE API** must be deployed and reachable at `https://api.oasisweb4.com`.
+2. **Stripe** – set these env vars on the ONODE API:
+   - `STRIPE_PUBLISHABLE_KEY`
+   - `STRIPE_SECRET_KEY`
+   - `STRIPE_WEBHOOK_SECRET` (for Stripe webhooks, if used)
+3. **CORS** – the API must allow origins `https://oasisweb4.com` and `https://www.oasisweb4.com`.
+
+The frontend handles both camelCase and PascalCase JSON from the API (e.g. `SessionUrl` / `sessionUrl`).
+
 ## Troubleshooting
 
 ### Changes Not Showing

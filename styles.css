@@ -1506,8 +1506,8 @@ body::before {
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
     
-    .nav-link:last-of-type {
-        border-bottom: none;
+    .nav-actions-mobile {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
     
     .nav-container {
