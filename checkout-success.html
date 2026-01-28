@@ -86,14 +86,14 @@
     <div class="success-container">
         <div class="success-content">
             <div class="success-icon">✓</div>
-            <h1 class="success-title">Subscription Activated</h1>
-            <p class="success-message">
+            <h1 class="success-title" id="successTitle">Subscription Activated</h1>
+            <p class="success-message" id="successMessage">
                 Thank you for subscribing to OASIS! Your subscription has been activated and you now have access to all the features included in your plan.
             </p>
-            <p class="success-message" style="font-size: 0.875rem; color: var(--text-tertiary);">
+            <p class="success-message" id="successSub" style="font-size: 0.875rem; color: var(--text-tertiary);">
                 You will receive a confirmation email shortly with your subscription details and API access information.
             </p>
-            <div class="success-actions">
+            <div class="success-actions" id="successActions">
                 <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/getting-started" class="btn-primary" target="_blank">
                     <span>Get Started</span>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -104,6 +104,22 @@
             </div>
         </div>
     </div>
+    <script>
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            if (params.get('type') === 'credits') {
+                var amount = params.get('amount') || '';
+                var title = document.getElementById('successTitle');
+                var msg = document.getElementById('successMessage');
+                var sub = document.getElementById('successSub');
+                var actions = document.getElementById('successActions');
+                if (title) title.textContent = 'Credits added';
+                if (msg) msg.textContent = amount ? 'You added $' + amount + ' in credits. Use them for API calls until they run out.' : 'Your credits have been added to your avatar. Use them for API calls until they run out.';
+                if (sub) sub.textContent = 'Credits are applied immediately. You can buy more anytime on the pricing page.';
+                if (actions) actions.innerHTML = '<a href="pricing.html" class="btn-primary">Buy more credits</a><a href="index.html" class="btn-text">Return Home</a>';
+            }
+        })();
+    </script>
 
     <footer class="footer">
         <div class="container">

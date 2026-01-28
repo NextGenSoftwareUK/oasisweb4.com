@@ -555,11 +555,21 @@ body::before {
 
 /* Architecture Section */
 .architecture-section {
-    background-color: var(--bg-secondary);
+    background-color: #000000;
 }
 
 .architecture-content {
-    max-width: 800px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+    max-width: 1200px;
+}
+
+.architecture-text {
+    flex: 1;
+    min-width: 420px;
+    max-width: 55%;
 }
 
 .architecture-description {
@@ -568,6 +578,42 @@ body::before {
     line-height: 1.8;
     margin-bottom: 2rem;
     font-weight: 300;
+}
+
+.architecture-diagram {
+    flex-shrink: 0;
+    text-align: center;
+    width: 1120px;
+    min-width: 400px;
+    max-width: 100%;
+    resize: horizontal;
+    overflow: hidden;
+    margin-left: 2rem;
+    margin-top: -1.5rem;
+}
+
+.architecture-diagram .architecture-torus {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .architecture-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .architecture-diagram {
+        width: 100%;
+        resize: none;
+    }
+    .architecture-diagram .architecture-torus {
+        width: 100%;
+        max-width: 560px;
+    }
 }
 
 /* Products Section */

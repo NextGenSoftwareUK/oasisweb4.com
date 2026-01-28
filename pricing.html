@@ -150,6 +150,40 @@
             cursor: not-allowed;
         }
 
+        /* Buy credits section */
+        .credits-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0 1rem;
+        }
+        .credits-cta {
+            padding: 0.875rem 1.75rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .credits-cta:hover {
+            border-color: var(--text-primary);
+            background-color: var(--hover-bg);
+        }
+        .credits-cta:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .credits-hint {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-align: center;
+            margin: 0;
+        }
+
         .pricing-loading {
             display: flex;
             justify-content: center;
@@ -269,7 +303,7 @@
                 <div class="hero-description">
                     <p>
                         Flexible subscription plans designed for developers, startups, and enterprises. 
-                        Access OASIS via direct API or MCP Server for IDEs—same subscription, same limits. 
+                        Access OASIS via direct API or MCP Server for IDEs: same subscription, same limits. 
                         Start with Bronze and upgrade as your needs grow.
                     </p>
                 </div>
@@ -288,6 +322,22 @@
         </div>
     </section>
 
+    <!-- Buy credits -->
+    <section class="section products-section" id="credits" data-section="credits">
+        <div class="container">
+            <h2 class="section-title">Buy credits</h2>
+            <p class="section-subtitle">Use the API without a subscription. Purchase credits and use them until they run out.</p>
+            <div id="creditsError" class="pricing-error" style="display: none;"></div>
+            <div id="creditsPresets" class="credits-presets">
+                <button type="button" class="credits-cta" data-amount="20">$20</button>
+                <button type="button" class="credits-cta" data-amount="50">$50</button>
+                <button type="button" class="credits-cta" data-amount="100">$100</button>
+                <button type="button" class="credits-cta" data-amount="250">$250</button>
+            </div>
+            <p class="credits-hint" id="creditsHint">Sign in to buy credits. Credits are added to your avatar and used per API call.</p>
+        </div>
+    </section>
+
     <!-- Section 02: Plans -->
     <section class="section products-section" id="plans" data-section="02">
         <div class="section-indicator">
@@ -298,7 +348,7 @@
             <span class="section-bracket">]</span>
         </div>
         <div class="container">
-            <h2 class="section-title">OASIS API Subscription Plans</h2>
+            <h2 class="section-title">Or subscribe monthly</h2>
             <p class="section-subtitle">Select the plan that fits your needs. All plans include access to the full OASIS API via direct API calls or <a href="products/mcp.html" style="color: var(--text-primary); text-decoration: underline;">MCP Server</a>.</p>
             
             <div id="pricingError" class="pricing-error" style="display: none;"></div>
@@ -416,7 +466,7 @@
         </div>
         <div class="container">
             <h2 class="section-title">MCP Server for IDEs</h2>
-            <p class="section-subtitle">Access OASIS directly from Cursor, VS Code, and other MCP-compatible IDEs. Same subscription, same limits—just a better interface.</p>
+            <p class="section-subtitle">Access OASIS directly from Cursor, VS Code, and other MCP-compatible IDEs. Same subscription, same limits, just a better interface.</p>
             <div style="text-align: center; margin-bottom: 3rem;">
                 <a href="products/mcp.html" class="link-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
                     <span>View MCP Server Details</span>
@@ -547,7 +597,7 @@
             <div style="margin-top: 3rem; padding: 2rem; border: 1px solid var(--border-color); background-color: var(--bg-secondary); max-width: 800px; margin-left: auto; margin-right: auto;">
                 <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin: 0; text-align: center;">
                     <strong style="color: var(--text-primary);">Unified Subscription:</strong> Your OASIS subscription works for both direct API access and MCP Server access. 
-                    Same limits, same features—choose how you want to interact with OASIS. 
+                    Same limits, same features. Choose how you want to interact with OASIS. 
                     <a href="products/mcp.html" style="color: var(--text-primary); text-decoration: underline;">Learn more about MCP Server</a>.
                 </p>
             </div>
@@ -946,9 +996,69 @@
             }
         }
 
+        async function handleBuyCredits(amountUsd) {
+            const errEl = document.getElementById('creditsError');
+            const hintEl = document.getElementById('creditsHint');
+            errEl.style.display = 'none';
+            errEl.textContent = '';
+
+            let avatarId = null;
+            let customerEmail = null;
+            try {
+                const authData = localStorage.getItem('oasis_auth');
+                if (authData) {
+                    const auth = JSON.parse(authData);
+                    if (auth.avatar) {
+                        avatarId = auth.avatar.id ?? auth.avatar.Id;
+                        customerEmail = auth.avatar.email ?? auth.avatar.Email;
+                    }
+                }
+            } catch (e) {}
+
+            if (!avatarId) {
+                errEl.textContent = 'Sign in to buy credits. Connect your avatar above, then try again.';
+                errEl.style.display = 'block';
+                if (typeof openLoginModal === 'function') openLoginModal();
+                return;
+            }
+
+            const buttons = document.querySelectorAll('.credits-cta');
+            buttons.forEach(b => { b.disabled = true; });
+            try {
+                const response = await fetch(`${API_BASE_URL}/subscription/checkout/credits`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amountUsd: amountUsd,
+                        avatarId: avatarId,
+                        successUrl: `${window.location.origin}/checkout-success.html?type=credits&amount=${amountUsd}`,
+                        cancelUrl: `${window.location.origin}/pricing.html`,
+                        customerEmail: customerEmail
+                    })
+                });
+                const data = await response.json().catch(() => ({}));
+                const msg = data.message ?? data.Message;
+                if (!response.ok) throw new Error(msg || `Request failed: ${response.status}`);
+                const url = data.sessionUrl ?? data.SessionUrl ?? data.url ?? data.Url;
+                if (!url) throw new Error('No checkout URL returned');
+                window.location.href = url;
+            } catch (error) {
+                console.error('Buy credits error:', error);
+                errEl.textContent = error.message || 'Failed to start checkout. Sign in and try again.';
+                errEl.style.display = 'block';
+            } finally {
+                buttons.forEach(b => { b.disabled = false; });
+            }
+        }
+
         // Load plans on page load
         document.addEventListener('DOMContentLoaded', () => {
             loadPlans();
+            document.querySelectorAll('.credits-cta').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    handleBuyCredits(parseFloat(this.getAttribute('data-amount')) || 0);
+                });
+            });
         });
 
         // Fallback login functions if script.js doesn't load
