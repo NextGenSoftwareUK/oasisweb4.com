@@ -1,4 +1,4 @@
-# Quick Start Guide - Deploying to Vercel from max-build2
+# Quick Start Guide - Deploying to Vercel from max-build4
 
 ## For David - Quick Deployment Steps
 
@@ -9,8 +9,8 @@
 git clone https://github.com/NextGenSoftwareUK/OASIS.git
 cd OASIS
 
-# Switch to max-build2 branch
-git checkout max-build2
+# Switch to max-build4 branch
+git checkout max-build4
 
 # Navigate to site directory (IMPORTANT: use oasisweb4.com, NOT new-v2)
 cd oasisweb4.com
@@ -42,7 +42,7 @@ Edit files in the `oasisweb4.com/` directory:
 # Commit and push
 git add .
 git commit -m "Your changes"
-git push origin max-build2
+git push origin max-build4
 # Vercel will auto-deploy
 ```
 
@@ -60,7 +60,7 @@ vercel --prod
 ## Important Notes
 
 - **Site Location**: `/oasisweb4.com/` directory in the OASIS repository
-- **Branch**: `max-build2`
+- **Branch**: `max-build4`
 - **Project**: `oasisweb4.com` on Vercel
 - **No build needed**: It's a static site, just HTML/CSS/JS
 

@@ -5,7 +5,7 @@
 This guide explains how to make changes to the OASIS Web4 website and deploy them to Vercel.
 
 **Live Site**: https://www.oasisweb4.com  
-**Repository**: https://github.com/NextGenSoftwareUK/OASIS (max-build2 branch)  
+**Repository**: https://github.com/NextGenSoftwareUK/OASIS (max-build4 branch)  
 **Site Location**: `/oasisweb4.com/` directory in the 
 
 ## Prerequisites
@@ -25,7 +25,7 @@ This guide explains how to make changes to the OASIS Web4 website and deploy the
    ```bash
    git clone https://github.com/NextGenSoftwareUK/OASIS.git
    cd OASIS
-   git checkout max-build2
+   git checkout max-build4
    ```
 
 2. **Navigate to the site directory**:
@@ -48,7 +48,7 @@ This guide explains how to make changes to the OASIS Web4 website and deploy the
    ```bash
    git add .
    git commit -m "Description of your changes"
-   git push origin max-build2
+   git push origin max-build4
    ```
 
 ### Option 2: Work with the Standalone Repository
@@ -78,7 +78,7 @@ If Vercel is connected to the GitHub repository:
 
 1. **Push your changes** to the repository (as shown above)
 2. **Vercel will automatically deploy** when you push to:
-   - `max-build2` branch (for OASIS repo)
+   - `max-build4` branch (for OASIS repo)
    - `main` branch (for standalone repo)
 
 3. **Check deployment status**:
@@ -199,6 +199,8 @@ To update a link, search for the old URL in `index.html` and replace it.
 
 ## Subscription API (Pricing / Checkout)
 
+Credits + subscriptions design (Anthropic-style): see **Docs/OASIS_BILLING_CREDITS_DESIGN.md** for the full plan (prepaid credits, optional subscriptions, “Buy credits” flow, auto-reload, middleware).
+
 The pricing page (`pricing.html`) and checkout flow use the OASIS ONODE API:
 
 - **Plans**: `GET https://api.oasisweb4.com/api/subscription/plans`
@@ -264,7 +266,7 @@ git add .
 git commit -m "Your commit message"
 
 # Push to repository
-git push origin max-build2
+git push origin max-build4
 
 # Deploy to Vercel (manual)
 vercel --prod
