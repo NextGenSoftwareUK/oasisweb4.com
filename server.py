@@ -4,11 +4,38 @@ import socketserver
 import urllib.request
 import json
 import sys
+import os
 
-PORT = 8080
+PORT = int(os.environ.get('PORT', 8081))
+
+# Clean URL -> file path (relative to repo root)
+AUTH_ROUTES = {
+    '/avatar/register': 'avatar/register.html',
+    '/avatar/sign-in': 'avatar/sign-in.html',
+    '/avatar/forgot-password': 'avatar/forgot-password.html',
+    '/avatar/reset-password': 'avatar/reset-password.html',
+    '/avatar/verify-email': 'avatar/verify-email.html',
+}
 
 class ProxyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
+        # Auth clean URLs: serve the corresponding HTML file directly
+        path_only = self.path.split('?')[0]
+        if path_only in AUTH_ROUTES:
+            file_path = AUTH_ROUTES[path_only]
+            if os.path.isfile(file_path):
+                try:
+                    with open(file_path, 'rb') as f:
+                        body = f.read()
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'text/html; charset=utf-8')
+                    self.send_header('Content-Length', len(body))
+                    self.end_headers()
+                    self.wfile.write(body)
+                    return
+                except Exception:
+                    pass
+            # fall through to 404 via super()
         # Proxy API requests to avoid mixed content issues
         if self.path.startswith('/api-proxy/'):
             api_path = self.path.replace('/api-proxy', '')
@@ -49,7 +76,6 @@ class ProxyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 error_msg = json.dumps({'error': str(e), 'isError': True, 'message': str(e)}).encode()
                 self.wfile.write(error_msg)
         else:
-            # Serve static files normally
             super().do_GET()
     
     def do_POST(self):

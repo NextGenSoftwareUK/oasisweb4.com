@@ -6,29 +6,18 @@
   "buildCommand": "",
   "outputDirectory": ".",
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/avatar/register", "destination": "/avatar/register.html" },
+    { "source": "/avatar/sign-in", "destination": "/avatar/sign-in.html" },
+    { "source": "/avatar/forgot-password", "destination": "/avatar/forgot-password.html" },
+    { "source": "/avatar/reset-password", "destination": "/avatar/reset-password.html" },
+    { "source": "/avatar/verify-email", "destination": "/avatar/verify-email.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "X-Frame-Options", "value": "DENY" },
+      { "key": "X-XSS-Protection", "value": "1; mode=block" }
+    ]}
   ]
 }
-

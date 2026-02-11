@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Verify email · OASIS</title>
+  <link rel="icon" type="image/png" href="../oasis-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo"><a href="/"><img src="../oasis-logo.png" alt="OASIS"></a></div>
+      <h1 class="auth-title">Verify your email</h1>
+      <p class="auth-subtitle" id="status">Verifying your email…</p>
+      <div id="msg" class="auth-msg" role="alert"></div>
+      <div class="auth-footer">
+        <p>OASIS · Our World</p>
+        <div class="auth-links">
+          <a href="sign-in">Sign in</a>
+          <a href="register">Create account</a>
+          <a href="/">Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var apiBase = getApiBase();
+      var params = new URLSearchParams(window.location.search);
+      var token = (params.get('token') || '').trim();
+      var statusEl = document.getElementById('status');
+      var msgEl = document.getElementById('msg');
+
+      function getApiBase() {
+        if (window.OASIS_API_BASE) return window.OASIS_API_BASE;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+          return 'http://localhost:5003/api';
+        return 'https://api.oasisweb4.com/api';
+      }
+
+      function done(text, isError) {
+        statusEl.textContent = '';
+        msgEl.textContent = text;
+        msgEl.className = 'auth-msg ' + (isError ? 'error' : 'success');
+        msgEl.style.display = 'block';
+      }
+
+      if (!token) {
+        done('Missing verification token. Use the link from your email.', true);
+        return;
+      }
+
+      fetch(apiBase + '/avatar/verify-email?token=' + encodeURIComponent(token), { method: 'GET' })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            return { ok: res.ok, status: res.status, data: data };
+          }).catch(function () {
+            return { ok: res.ok, status: res.status, data: null };
+          });
+        })
+        .then(function (out) {
+          var data = out.data;
+          var result = data && (data.result !== undefined ? data.result : data);
+          if (!out.ok && result && result.message) {
+            done(result.message, true);
+            return;
+          }
+          if (result && result.isError && result.message) {
+            done(result.message, true);
+            return;
+          }
+          if (result && (result.result === true || result.result === 'true')) {
+            done('Your email is verified. You can now sign in.', false);
+          } else {
+            done((result && result.message) || 'Verification complete.', false);
+          }
+        })
+        .catch(function () {
+          done('Verification failed. The link may have expired or the server is unavailable. Try again or contact support.', true);
+        });
+    })();
+  </script>
+</body>
+</html>

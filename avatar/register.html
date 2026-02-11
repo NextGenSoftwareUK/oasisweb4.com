@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Create account · OASIS</title>
+  <link rel="icon" type="image/png" href="../oasis-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo"><a href="/"><img src="../oasis-logo.png" alt="OASIS"></a></div>
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-subtitle">Join OASIS to build across 50+ chains with one API.</p>
+      <form id="form" class="auth-form">
+        <div class="row">
+          <div>
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" name="firstName" required autocomplete="given-name" placeholder="Jane">
+          </div>
+          <div>
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" name="lastName" required autocomplete="family-name" placeholder="Doe">
+          </div>
+        </div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autocomplete="username" placeholder="janedoe">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters">
+        <label for="confirmPassword">Confirm password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6" autocomplete="new-password" placeholder="Repeat password">
+        <div class="auth-checkbox">
+          <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+          <label for="acceptTerms">I accept the OASIS terms of service</label>
+        </div>
+        <button type="submit" class="auth-btn" id="submitBtn">Create account</button>
+      </form>
+      <div id="msg" class="auth-msg" role="alert"></div>
+      <div class="auth-footer">
+        <p>OASIS · Our World</p>
+        <div class="auth-links">
+          <a href="sign-in">Sign in</a>
+          <a href="forgot-password">Forgot password?</a>
+          <a href="/">Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var apiBase = getApiBase();
+      var form = document.getElementById('form');
+      var submitBtn = document.getElementById('submitBtn');
+      var msgEl = document.getElementById('msg');
+
+      function getApiBase() {
+        if (window.OASIS_API_BASE) return window.OASIS_API_BASE;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+          return 'http://localhost:5003/api';
+        return 'https://api.oasisweb4.com/api';
+      }
+
+      function showMsg(text, isError) {
+        msgEl.textContent = text;
+        msgEl.className = 'auth-msg ' + (isError ? 'error' : 'success');
+        msgEl.style.display = 'block';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var password = document.getElementById('password').value;
+        var confirm = document.getElementById('confirmPassword').value;
+        if (password !== confirm) {
+          showMsg('Passwords do not match.', true);
+          return;
+        }
+        if (password.length < 6) {
+          showMsg('Password must be at least 6 characters.', true);
+          return;
+        }
+        if (!document.getElementById('acceptTerms').checked) {
+          showMsg('Please accept the terms.', true);
+          return;
+        }
+        var firstName = document.getElementById('firstName').value.trim();
+        var lastName = document.getElementById('lastName').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var username = document.getElementById('username').value.trim();
+        if (!firstName || !lastName || !email || !username) {
+          showMsg('Please fill in all required fields.', true);
+          return;
+        }
+        submitBtn.disabled = true;
+        msgEl.style.display = 'none';
+
+        var payload = {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          username: username,
+          password: password,
+          confirmPassword: confirm,
+          avatarType: 'User',
+          acceptTerms: true
+        };
+
+        fetch(apiBase + '/avatar/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            return res.json().then(function (data) {
+              return { ok: res.ok, status: res.status, data: data };
+            }).catch(function () {
+              return { ok: res.ok, status: res.status, data: null };
+            });
+          })
+          .then(function (out) {
+            var data = out.data;
+            var result = data && (data.result !== undefined ? data.result : data);
+            if (!out.ok) {
+              var errMsg = (result && result.message) || (data && data.message) || 'Registration failed. Please try again.';
+              showMsg(errMsg, true);
+              return;
+            }
+            if (result && result.isError && result.message) {
+              showMsg(result.message, true);
+              return;
+            }
+            showMsg('Account created! Check your email for a verification link. You can sign in after verifying.', false);
+            form.reset();
+            document.getElementById('acceptTerms').checked = false;
+          })
+          .catch(function () {
+            showMsg('Something went wrong. Please check your connection and try again.', true);
+          })
+          .finally(function () { submitBtn.disabled = false; });
+      });
+    })();
+  </script>
+</body>
+</html>
