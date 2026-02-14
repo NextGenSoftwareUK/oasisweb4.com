@@ -24,6 +24,9 @@
           <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Your password">
           <button type="button" class="auth-password-toggle" onclick="this.previousElementSibling.type=this.previousElementSibling.type==='password'?'text':'password';this.textContent=this.previousElementSibling.type==='password'?'Show':'Hide'">Show</button>
         </div>
+        <div class="auth-field-footer">
+          <a href="forgot-password" class="auth-forgot-link">Forgot password?</a>
+        </div>
         <button type="submit" class="auth-btn" id="submitBtn">Sign in</button>
       </form>
       <div id="msg" class="auth-msg" role="alert"></div>

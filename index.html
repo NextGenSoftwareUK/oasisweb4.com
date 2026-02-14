@@ -52,6 +52,7 @@
                 <a href="#ecosystem" class="nav-link">Ecosystem</a>
                 <a href="#developers" class="nav-link">Developers</a>
                 <a href="resources.html" class="nav-link">Resources</a>
+                <a href="architecture.html" class="nav-link">Architecture</a>
                 <a href="pricing.html" class="nav-link">Pricing</a>
                 <div class="nav-actions-mobile">
                     <button class="btn-login" onclick="openLoginModal()">Log in</button>
@@ -612,21 +613,18 @@ console.log(status.status);</code></pre>
                 </div>
                 <div class="footer-col">
                     <h4>Resources</h4>
-                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/additional-resources/oasis-white-paper-nov-2024" target="_blank">Whitepaper</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="architecture.html">Architecture</a>
+                    <a href="holonic-architecture.html">Holonic Whitepaper</a>
                     <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">Documentation</a>
                 </div>
                 <div class="footer-col">
                     <h4>For the developers</h4>
-                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/core-architecture/starnet-web-ui-overview" target="_blank">OASIS Dashboard</a>
                     <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">OASIS Github</a>
                 </div>
                 <div class="footer-col">
                     <h4>Ecosystem</h4>
                     <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/#supported-providers" target="_blank">Ecosystem</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Careers</h4>
-                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Contribute</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -725,14 +723,21 @@ console.log(status.status);</code></pre>
 
                     <div class="auth-field">
                         <label class="auth-label-text">Password</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password"
-                            class="auth-input" 
-                            placeholder="••••••••"
-                            required
-                        />
+                        <div class="auth-password-wrap">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password"
+                                class="auth-input" 
+                                placeholder="••••••••"
+                                required
+                                autocomplete="current-password"
+                            />
+                            <button type="button" class="auth-password-toggle" aria-label="Toggle password visibility" onclick="var i=this.previousElementSibling;i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'Show':'Hide'">Show</button>
+                        </div>
+                        <div class="auth-field-footer">
+                            <a href="/avatar/forgot-password" class="auth-forgot-link">Forgot password?</a>
+                        </div>
                     </div>
 
                     <div id="authError" class="auth-error" style="display: none;"></div>
