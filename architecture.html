@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OASIS Architecture - Universal Web4/Web5 Infrastructure</title>
+    <meta name="description" content="OASIS system architecture, provider system, avatar system, and key concepts. Technical overview from DeepWiki.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .docs-content { max-width: 800px; }
+        .docs-content h2 { font-size: 2rem; font-weight: 400; margin: 3rem 0 1.5rem; letter-spacing: -0.02em; }
+        .docs-content h3 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; }
+        .docs-content p { font-size: 1rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; }
+        .docs-content ul { margin: 1rem 0 2rem; padding-left: 1.5rem; }
+        .docs-content li { color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.7; }
+        .docs-content hr { border: none; border-top: 1px solid var(--border-color); margin: 3rem 0; }
+        .docs-content a { color: var(--text-primary); text-decoration: underline; text-underline-offset: 2px; }
+        .docs-content a:hover { color: var(--text-secondary); }
+        .docs-content strong { color: var(--text-primary); font-weight: 500; }
+        .docs-content code { font-family: 'Courier New', monospace; font-size: 0.875em; background: var(--bg-secondary); padding: 0.2em 0.4em; border-radius: 4px; border: 1px solid var(--border-color); }
+        .provider-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+        .provider-table th, .provider-table td { padding: 0.75rem 1rem; text-align: left; border: 1px solid var(--border-color); }
+        .provider-table th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); font-weight: 500; }
+        .provider-table td { color: var(--text-secondary); font-size: 0.9375rem; }
+        .cta-block { margin-top: 3rem; padding: 2rem; border: 1px solid var(--border-color); }
+        .cta-block a { display: inline-flex; align-items: center; gap: 0.5rem; margin-right: 1.5rem; margin-bottom: 0.5rem; text-decoration: none; }
+        .cta-block a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="oasis-logo.png" alt="OASIS" />
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html#products" class="nav-link">Products</a>
+                <a href="index.html#ecosystem" class="nav-link">Ecosystem</a>
+                <a href="index.html#developers" class="nav-link">Developers</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="architecture.html" class="nav-link">Architecture</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
+                <div class="nav-actions-mobile">
+                    <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                    <button class="btn-signup" onclick="openLoginModal('register')">Sign up</button>
+                    <button class="btn-primary">Start building</button>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                <button class="btn-signup" onclick="openLoginModal('register')">Sign up</button>
+                <button class="btn-primary">Start building</button>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="section hero-section" id="home">
+        <div class="section-indicator">
+            <span class="section-bracket">[</span>
+            <span class="section-number">01</span>
+            <span class="section-divider">/</span>
+            <span class="section-total">06</span>
+            <span class="section-bracket">]</span>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-line">OASIS</span>
+                    <span class="title-line">Architecture</span>
+                </h1>
+                <p class="hero-tagline">
+                    /// unified interface. multiple providers. one API.
+                </p>
+                <div class="hero-description">
+                    <p>
+                        OASIS (Open Architectural Structure for Integrated Systems) is a multifaceted platform that provides 
+                        a unified interface across diverse storage and network technologies—blockchain networks, traditional 
+                        databases, and decentralized storage systems. Auto-failover, auto-replication, and auto-load balancing 
+                        ensure 100% uptime.
+                    </p>
+                </div>
+                <div class="hero-actions">
+                    <a href="https://deepwiki.com/NextGenSoftwareUK/OASIS" class="btn-primary" target="_blank">
+                        <span>View on DeepWiki</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Architecture -->
+    <section class="section" data-section="01">
+        <div class="container">
+            <div class="docs-content">
+                <h2>System Architecture</h2>
+                <p>
+                    OASIS implements a layered architecture with clear separation of concerns. The platform enables applications 
+                    to interact with multiple providers through a consistent API.
+                </p>
+                <h3>Key Components</h3>
+                <ul>
+                    <li><strong>OASIS Web API</strong> — RESTful API gateway that exposes OASIS functionality to client applications</li>
+                    <li><strong>Core Managers</strong> — Implements business logic and orchestrates interactions between components</li>
+                    <li><strong>Provider System</strong> — Manages different storage and network providers through a common interface</li>
+                    <li><strong>OASIS BootLoader</strong> — Initializes the system and bootstraps the provider architecture</li>
+                    <li><strong>OASIS DNA</strong> — Configuration system that defines platform behavior and settings</li>
+                </ul>
+                <hr>
+                <h2>Provider Architecture</h2>
+                <p>
+                    The provider system is a cornerstone of OASIS, enabling the platform to interact with multiple storage and 
+                    network technologies through a unified interface.
+                </p>
+                <ul>
+                    <li><strong>Pluggable architecture</strong> — Common interface (<code>IOASISProvider</code>) for all providers</li>
+                    <li><strong>Provider lifecycle</strong> — Activation, deactivation, and registration</li>
+                    <li><strong>Automatic failover</strong> — If one provider fails, operations route to available providers</li>
+                    <li><strong>Data replication</strong> — Holons replicated across multiple providers</li>
+                    <li><strong>Load balancing</strong> — Distributes requests efficiently across providers</li>
+                </ul>
+                <hr>
+                <h2>Avatar System</h2>
+                <p>
+                    The Avatar system serves as the identity and authentication layer within OASIS.
+                </p>
+                <ul>
+                    <li><strong>User registration</strong> — With email verification</li>
+                    <li><strong>JWT-based authentication</strong> — With refresh tokens</li>
+                    <li><strong>Profile management</strong> — Including avatar portraits</li>
+                    <li><strong>Karma tracking</strong> — Rewards and reputation</li>
+                    <li><strong>Role-based authorization</strong> — Wizard/Admin roles</li>
+                </ul>
+                <hr>
+                <h2>Key Concepts</h2>
+                <h3>Holons</h3>
+                <p>
+                    Holons are the fundamental data objects in OASIS, implementing a hierarchical structure where objects can 
+                    have parent-child relationships. A holon is both a whole (it can stand alone) and a part (it can belong 
+                    to a larger structure). Every persistable entity implements the core holon interfaces.
+                </p>
+                <h3>Provider Types</h3>
+                <table class="provider-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Storage Providers</td>
+                            <td>MongoDBOASIS, SQLLiteDBOASIS, Neo4jOASIS, AzureCosmosDBOASIS</td>
+                        </tr>
+                        <tr>
+                            <td>Network Providers</td>
+                            <td>HoloOASIS, IPFSOASIS, ActivityPubOASIS</td>
+                        </tr>
+                        <tr>
+                            <td>Blockchain Providers</td>
+                            <td>EthereumOASIS, SolanaOASIS, ArbitrumOASIS, PolygonOASIS</td>
+                        </tr>
+                        <tr>
+                            <td>Other Providers</td>
+                            <td>WRLDMapOASIS, MapboxOASIS, CargoOASIS</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h2>OASIS Result Pattern</h2>
+                <p>
+                    OASIS implements a consistent result pattern through <code>OASISResult&lt;T&gt;</code>, which encapsulates 
+                    the operation result, success/failure indicators, error messages, and metadata. This provides consistent 
+                    error handling and response formatting throughout the system.
+                </p>
+                <hr>
+                <div class="cta-block">
+                    <p style="margin-bottom: 1rem;"><strong>Learn more</strong></p>
+                    <a href="https://deepwiki.com/NextGenSoftwareUK/OASIS" target="_blank">🔗 DeepWiki — Full OASIS Documentation</a>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">🔗 GitBook — OASIS Web4 Docs</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">🔗 GitHub — Source Code</a>
+                    <a href="holonic-architecture.html">🔗 Holonic Architecture Whitepaper</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Products</h4>
+                    <a href="products/identity.html">Identity & Access</a>
+                    <a href="products/data.html">Data & Storage</a>
+                    <a href="products/nfts.html">NFTs & Digital Assets</a>
+                    <a href="products/smart-contracts.html">Smart Contracts</a>
+                    <a href="products/bridges.html">Interoperability & Bridges</a>
+                    <a href="products/star.html">STAR CLI</a>
+                    <a href="products/infrastructure.html">Infrastructure & Tools</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Developers</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/api-reference/api_reference" target="_blank">Documentation</a>
+                    <a href="index.html#developers">Code Examples</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">GitHub</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="resources.html">Resources</a>
+                    <a href="architecture.html">Architecture</a>
+                    <a href="holonic-architecture.html">Holonic Whitepaper</a>
+                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Support</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">About</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="https://x.com/oasisweb4" target="_blank">Twitter</a>
+                    <a href="https://discord.gg/RU6Z8YJ" target="_blank">Discord</a>
+                    <a href="https://t.me/oasisweb4chat" target="_blank">Telegram</a>
+                </div>
+                <div class="footer-copyright">© 2025 OASIS. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeLoginModal()"></div>
+    </div>
+</body>
+</html>

@@ -21,14 +21,17 @@
                 <a href="index.html#ecosystem" class="nav-link">Ecosystem</a>
                 <a href="index.html#developers" class="nav-link">Developers</a>
                 <a href="resources.html" class="nav-link">Resources</a>
+                <a href="architecture.html" class="nav-link">Architecture</a>
                 <a href="pricing.html" class="nav-link">Pricing</a>
                 <div class="nav-actions-mobile">
                     <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                    <button class="btn-signup" onclick="openLoginModal('register')">Sign up</button>
                     <button class="btn-primary">Start building</button>
                 </div>
             </div>
             <div class="nav-actions">
                 <button class="btn-login" onclick="openLoginModal()">Log in</button>
+                <button class="btn-signup" onclick="openLoginModal('register')">Sign up</button>
                 <button class="btn-primary">Start building</button>
             </div>
             <button class="nav-toggle" id="navToggle">
@@ -336,11 +339,39 @@
                 Community resources, support, and more.
             </div>
             <div class="resources-grid">
-                <a href="#" class="resource-card">
+                <a href="architecture.html" class="resource-card">
+                    <div class="resource-category">ARCHITECTURE</div>
+                    <h3 class="resource-title">OASIS Architecture</h3>
+                    <p class="resource-description">
+                        System architecture, provider system, avatar system, and key concepts. Technical overview 
+                        from DeepWiki—unified interface across 50+ providers.
+                    </p>
+                    <div class="resource-link">
+                        <span>View Architecture</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="holonic-architecture.html" class="resource-card">
+                    <div class="resource-category">WHITEPAPER</div>
+                    <h3 class="resource-title">Holonic Architecture</h3>
+                    <p class="resource-description">
+                        Identity-independent data structures for cross-environment interoperability. 
+                        The foundational whitepaper on holons, HyperDrive, and multi-provider persistence.
+                    </p>
+                    <div class="resource-link">
+                        <span>Read Whitepaper</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="https://www.ourworldthegame.com/single-post/what-are-holons-and-what-can-they-do-for-you" class="resource-card" target="_blank">
                     <div class="resource-category">BLOG</div>
                     <h3 class="resource-title">Blog</h3>
                     <p class="resource-description">
-                        Latest updates, tutorials, and insights from the OASIS team. Learn about new features, 
+                        Latest updates, tutorials, and insights from the OASIS team. Learn about holons, 
                         best practices, and use cases.
                     </p>
                     <div class="resource-link">
@@ -350,26 +381,12 @@
                         </svg>
                     </div>
                 </a>
-                <a href="#" class="resource-card">
-                    <div class="resource-category">WHITEPAPER</div>
-                    <h3 class="resource-title">Whitepaper</h3>
-                    <p class="resource-description">
-                        Technical deep dive into OASIS architecture, protocols, and design decisions. 
-                        Understand the underlying technology.
-                    </p>
-                    <div class="resource-link">
-                        <span>Read Whitepaper</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                </a>
-                <a href="#" class="resource-card">
+                <a href="https://github.com/NextGenSoftwareUK/OASIS" class="resource-card" target="_blank">
                     <div class="resource-category">SUPPORT</div>
                     <h3 class="resource-title">Support</h3>
                     <p class="resource-description">
                         Get help from the OASIS community. Ask questions, report issues, and connect 
-                        with other developers.
+                        with other developers on GitHub.
                     </p>
                     <div class="resource-link">
                         <span>Get Support</span>
@@ -404,13 +421,14 @@
                 <div class="footer-col">
                     <h4>Resources</h4>
                     <a href="resources.html">Resources</a>
+                    <a href="architecture.html">Architecture</a>
+                    <a href="holonic-architecture.html">Holonic Whitepaper</a>
                     <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">GitBook</a>
                     <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Support</a>
                 </div>
                 <div class="footer-col">
                     <h4>Company</h4>
                     <a href="https://oasis-web4.gitbook.io/oasis-web4-docs/" target="_blank">About</a>
-                    <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank">Contribute</a>
                     <a href="contact.html">Contact</a>
                 </div>
                 <div class="footer-col">

@@ -202,11 +202,16 @@ const OASIS_API_URL = 'https://api.oasisweb4.com';
 
 let currentAuthMode = 'login';
 
-function openLoginModal() {
+function openLoginModal(mode) {
     const modal = document.getElementById('loginModal');
     if (modal) {
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        if (mode === 'register') {
+            switchAuthMode('register');
+        } else if (mode === 'login') {
+            switchAuthMode('login');
+        }
     }
 }
 
@@ -216,9 +221,11 @@ function closeLoginModal() {
         modal.style.display = 'none';
         document.body.style.overflow = '';
     }
-    // Reset form
-    document.getElementById('authForm').reset();
-    document.getElementById('authError').style.display = 'none';
+    // Reset form (modal may be minimal on some pages)
+    const form = document.getElementById('authForm');
+    const errorEl = document.getElementById('authError');
+    if (form) form.reset();
+    if (errorEl) errorEl.style.display = 'none';
     switchAuthMode('login');
 }
 
@@ -228,6 +235,7 @@ function switchAuthMode(mode) {
     const registerFields = document.getElementById('registerFields');
     const usernameLabel = document.getElementById('usernameLabel');
     const submitText = document.getElementById('authSubmitText');
+    const emailInput = document.getElementById('email');
     
     tabs.forEach(tab => {
         if (tab.getAttribute('data-mode') === mode) {
@@ -237,16 +245,17 @@ function switchAuthMode(mode) {
         }
     });
     
-    if (mode === 'register') {
-        registerFields.style.display = 'block';
-        usernameLabel.textContent = 'Username';
-        submitText.textContent = 'Create avatar';
-        document.getElementById('email').required = true;
-    } else {
-        registerFields.style.display = 'none';
-        usernameLabel.textContent = 'Username or email';
-        submitText.textContent = 'Sign in';
-        document.getElementById('email').required = false;
+    if (registerFields) {
+        registerFields.style.display = mode === 'register' ? 'block' : 'none';
+    }
+    if (usernameLabel) {
+        usernameLabel.textContent = mode === 'register' ? 'Username' : 'Username or email';
+    }
+    if (submitText) {
+        submitText.textContent = mode === 'register' ? 'Create avatar' : 'Sign in';
+    }
+    if (emailInput) {
+        emailInput.required = mode === 'register';
     }
 }
 
@@ -468,7 +477,6 @@ function useDemoAvatar() {
 
 function updateUserUI(avatar) {
     // Update login button (works for both main site and portal)
-    // Always show "Log in" as the label for consistency
     const loginBtn = document.getElementById('userMenuBtn') || 
                      document.querySelector('.nav-actions .btn-login') ||
                      document.querySelector('.nav-actions button[onclick*="openLoginModal"]');
@@ -484,6 +492,11 @@ function updateUserUI(avatar) {
             loginBtn.onclick = () => { openLoginModal(); };
         }
     }
+    
+    // Hide Sign up when logged in (not needed)
+    document.querySelectorAll('.btn-signup').forEach(btn => {
+        btn.style.display = avatar ? 'none' : '';
+    });
     
     // Also update portal's auth button if on portal page
     if (typeof updateAuthButton === 'function') {
