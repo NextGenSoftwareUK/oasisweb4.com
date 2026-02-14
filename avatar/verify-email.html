@@ -50,7 +50,10 @@
       }
 
       if (!token) {
-        done('Missing verification token. Use the link from your email.', true);
+        msgEl.innerHTML = 'Missing verification token. Use the link from your email. <a href="register">Create account</a> or <a href="sign-in">Sign in</a>.';
+        msgEl.className = 'auth-msg error';
+        msgEl.style.display = 'block';
+        statusEl.textContent = '';
         return;
       }
 
@@ -70,17 +73,32 @@
             return;
           }
           if (result && result.isError && result.message) {
-            done(result.message, true);
+            var msg = result.message;
+            var isExpired = (msg || '').toLowerCase().indexOf('expired') >= 0 || (msg || '').toLowerCase().indexOf('invalid') >= 0;
+            if (isExpired) {
+              msgEl.innerHTML = (msg || 'This link has expired.') + ' <a href="sign-in">Sign in</a> if you already verified, or <a href="register">Create account</a> to try again.';
+            } else {
+              msgEl.innerHTML = msg + ' <a href="sign-in">Sign in</a> or <a href="register">Create account</a>.';
+            }
+            msgEl.className = 'auth-msg error';
+            msgEl.style.display = 'block';
+            statusEl.textContent = '';
             return;
           }
           if (result && (result.result === true || result.result === 'true')) {
-            done('Your email is verified. You can now sign in.', false);
+            msgEl.innerHTML = 'Your email is verified. <a href="sign-in">Sign in</a> to continue.';
+            msgEl.className = 'auth-msg success';
+            msgEl.style.display = 'block';
+            statusEl.textContent = '';
           } else {
             done((result && result.message) || 'Verification complete.', false);
           }
         })
         .catch(function () {
-          done('Verification failed. The link may have expired or the server is unavailable. Try again or contact support.', true);
+          msgEl.innerHTML = 'Verification failed. The link may have expired or the server is unavailable. <a href="register">Create account</a> or <a href="sign-in">Sign in</a>.';
+          msgEl.className = 'auth-msg error';
+          msgEl.style.display = 'block';
+          statusEl.textContent = '';
         });
     })();
   </script>

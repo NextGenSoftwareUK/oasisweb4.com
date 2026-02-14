@@ -32,9 +32,16 @@
         <label for="username">Username</label>
         <input type="text" id="username" name="username" required autocomplete="username" placeholder="janedoe">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters">
+        <div class="auth-password-wrap">
+          <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters">
+          <button type="button" class="auth-password-toggle" onclick="var i=this.previousElementSibling;i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'Show':'Hide'">Show</button>
+        </div>
+        <div id="passwordHint" class="auth-password-hint">At least 6 characters</div>
         <label for="confirmPassword">Confirm password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6" autocomplete="new-password" placeholder="Repeat password">
+        <div class="auth-password-wrap">
+          <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6" autocomplete="new-password" placeholder="Repeat password">
+          <button type="button" class="auth-password-toggle" onclick="this.previousElementSibling.type=this.previousElementSibling.type==='password'?'text':'password';this.textContent=this.previousElementSibling.type==='password'?'Show':'Hide'">Show</button>
+        </div>
         <div class="auth-checkbox">
           <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
           <label for="acceptTerms">I accept the OASIS terms of service</label>
@@ -70,6 +77,15 @@
         msgEl.textContent = text;
         msgEl.className = 'auth-msg ' + (isError ? 'error' : 'success');
         msgEl.style.display = 'block';
+      }
+
+      var passwordEl = document.getElementById('password');
+      var hintEl = document.getElementById('passwordHint');
+      if (passwordEl && hintEl) {
+        passwordEl.addEventListener('input', function () {
+          hintEl.textContent = passwordEl.value.length >= 6 ? '✓ At least 6 characters' : 'At least 6 characters';
+          hintEl.classList.toggle('met', passwordEl.value.length >= 6);
+        });
       }
 
       form.addEventListener('submit', function (e) {
@@ -130,11 +146,20 @@
               showMsg(errMsg, true);
               return;
             }
-            if (result && result.isError && result.message) {
-              showMsg(result.message, true);
+            // API returns 200 with isError in body when email/username already exists
+            if ((result && result.isError && result.message) || (data && data.isError && data.message)) {
+              var errMsg = (result && result.message) || (data && data.message) || 'Registration failed. Please try again.';
+              var isEmailExists = (errMsg || '').toLowerCase().indexOf('email') >= 0 && (errMsg || '').toLowerCase().indexOf('already') >= 0;
+              if (isEmailExists) {
+                msgEl.innerHTML = errMsg + ' <a href="sign-in">Sign in</a> or <a href="forgot-password">Forgot password?</a>';
+              } else {
+                showMsg(errMsg, true);
+              }
+              msgEl.className = 'auth-msg error';
+              msgEl.style.display = 'block';
               return;
             }
-            showMsg('Account created! Check your email for a verification link. You can sign in after verifying.', false);
+            showMsg('Account created! Check your email for a verification link. Check your spam folder if you don\'t see it. You can sign in after verifying.', false);
             form.reset();
             document.getElementById('acceptTerms').checked = false;
           })

@@ -20,7 +20,10 @@
         <label for="username">Username or email</label>
         <input type="text" id="username" name="username" required autocomplete="username" placeholder="you@example.com or username">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Your password">
+        <div class="auth-password-wrap">
+          <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Your password">
+          <button type="button" class="auth-password-toggle" onclick="this.previousElementSibling.type=this.previousElementSibling.type==='password'?'text':'password';this.textContent=this.previousElementSibling.type==='password'?'Show':'Hide'">Show</button>
+        </div>
         <button type="submit" class="auth-btn" id="submitBtn">Sign in</button>
       </form>
       <div id="msg" class="auth-msg" role="alert"></div>

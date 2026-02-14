@@ -563,13 +563,13 @@ body::before {
     flex-direction: row;
     align-items: center;
     gap: 3rem;
-    max-width: 1200px;
+    max-width: 1400px;
 }
 
 .architecture-text {
     flex: 1;
-    min-width: 420px;
-    max-width: 55%;
+    min-width: 360px;
+    max-width: 45%;
 }
 
 .architecture-description {
@@ -582,10 +582,10 @@ body::before {
 
 .architecture-diagram {
     flex-shrink: 0;
-    text-align: center;
-    width: 1120px;
+    width: 880px;
     min-width: 400px;
-    max-width: 100%;
+    max-width: min(880px, 58vw);
+    text-align: center;
     resize: horizontal;
     overflow: hidden;
     margin-left: 2rem;
@@ -599,6 +599,14 @@ body::before {
     margin-left: auto;
     margin-right: 0;
     border-radius: 8px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+    .architecture-diagram {
+        max-width: min(680px, 55vw);
+    }
 }
 
 @media (max-width: 768px) {
@@ -608,11 +616,16 @@ body::before {
     }
     .architecture-diagram {
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        flex-shrink: 0;
         resize: none;
+        margin-left: 0;
+        margin-top: 1rem;
     }
     .architecture-diagram .architecture-torus {
         width: 100%;
-        max-width: 560px;
+        max-width: 100%;
     }
 }
 
@@ -1258,6 +1271,8 @@ body::before {
     color: #fca5a5;
     font-size: 0.875rem;
 }
+.auth-error a { color: rgba(255,255,255,0.95); text-decoration: underline; }
+.auth-error a:hover { color: #fff; }
 
 .auth-actions {
     display: flex;

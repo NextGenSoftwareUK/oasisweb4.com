@@ -399,9 +399,11 @@ async function handleAuthSubmit(event) {
                     throw new Error('Invalid response from server');
                 }
                 
-                if (!response.ok || (data.isError && data.isError)) {
+                // API returns 200 with isError in body when email/username already exists
+                const regResult = data?.result ?? data;
+                if (!response.ok || data?.isError || regResult?.isError) {
                     console.error('Registration error:', data);
-                    throw new Error(data.message || data.error || 'Registration failed');
+                    throw new Error(regResult?.message || data?.message || data?.error || 'Registration failed');
                 }
                 
                 console.log('Registration successful:', data);
@@ -432,7 +434,13 @@ async function handleAuthSubmit(event) {
             }
         }
     } catch (error) {
-        errorDiv.textContent = error.message || 'An error occurred. Please try again.';
+        const msg = error.message || 'An error occurred. Please try again.';
+        const isEmailExists = msg.toLowerCase().includes('email') && msg.toLowerCase().includes('already');
+        if (isEmailExists) {
+            errorDiv.innerHTML = msg + ' <a href="/avatar/sign-in">Sign in</a> or <a href="/avatar/forgot-password">Forgot password?</a>';
+        } else {
+            errorDiv.textContent = msg;
+        }
         errorDiv.style.display = 'block';
     } finally {
         submitBtn.disabled = false;
@@ -459,25 +467,23 @@ function useDemoAvatar() {
 }
 
 function updateUserUI(avatar) {
-    // Update login button to show user info (works for both main site and portal)
+    // Update login button (works for both main site and portal)
+    // Always show "Log in" as the label for consistency
     const loginBtn = document.getElementById('userMenuBtn') || 
                      document.querySelector('.nav-actions .btn-login') ||
                      document.querySelector('.nav-actions button[onclick*="openLoginModal"]');
     
-    if (loginBtn && avatar) {
-        loginBtn.textContent = avatar.username || avatar.email || 'Account';
-        // Maintain btn-login class for white button styling
+    if (loginBtn) {
+        loginBtn.textContent = 'Log in';
         loginBtn.className = 'btn-login';
         
-        // Portal uses handleUserMenuClick, main site redirects to portal
+        // Portal uses handleUserMenuClick, main site: go to portal if logged in, else open modal
         if (typeof handleUserMenuClick === 'function') {
-            // Portal - button already has correct onclick handler
-            loginBtn.title = 'Click to logout';
+            loginBtn.title = avatar ? 'Click for account menu' : 'Sign in';
         } else {
-            // Main site - redirect to portal
-            loginBtn.onclick = () => {
-                window.location.href = 'portal/portal.html';
-            };
+            loginBtn.onclick = avatar
+                ? () => { window.location.href = 'portal/portal.html'; }
+                : () => { openLoginModal(); };
         }
     }
     
@@ -517,11 +523,35 @@ function ensureLoginButtonVisible() {
     });
 }
 
+// Wire "Start building" nav buttons: logged out -> register, logged in -> portal
+function wireStartBuildingButtons() {
+    const btns = document.querySelectorAll('.nav-actions .btn-primary, .nav-actions-mobile .btn-primary');
+    btns.forEach(btn => {
+        if (btn.textContent.trim().toLowerCase().includes('start building') && !btn.hasAttribute('data-wired')) {
+            btn.setAttribute('data-wired', 'true');
+            btn.onclick = () => {
+                const auth = localStorage.getItem('oasis_auth');
+                if (auth) {
+                    try {
+                        const parsed = JSON.parse(auth);
+                        if (parsed.avatar) {
+                            window.location.href = '/portal/portal.html';
+                            return;
+                        }
+                    } catch (e) {}
+                }
+                window.location.href = '/avatar/register';
+            };
+        }
+    });
+}
+
 // Check for existing auth on page load
 window.addEventListener('DOMContentLoaded', () => {
     // Ensure login button is visible
     ensureLoginButtonVisible();
-    
+    wireStartBuildingButtons();
+
     const authData = localStorage.getItem('oasis_auth');
     if (authData) {
         try {
