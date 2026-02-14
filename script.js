@@ -477,13 +477,11 @@ function updateUserUI(avatar) {
         loginBtn.textContent = 'Log in';
         loginBtn.className = 'btn-login';
         
-        // Portal uses handleUserMenuClick, main site: go to portal if logged in, else open modal
+        // Portal uses handleUserMenuClick, main site: always open login modal
         if (typeof handleUserMenuClick === 'function') {
             loginBtn.title = avatar ? 'Click for account menu' : 'Sign in';
         } else {
-            loginBtn.onclick = avatar
-                ? () => { window.location.href = 'portal/portal.html'; }
-                : () => { openLoginModal(); };
+            loginBtn.onclick = () => { openLoginModal(); };
         }
     }
     
