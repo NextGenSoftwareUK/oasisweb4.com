@@ -523,12 +523,12 @@ function ensureLoginButtonVisible() {
             computedStyle.color === 'rgb(255, 255, 255)' && computedStyle.backgroundColor.includes('rgb(10, 10, 10)')) {
             btn.style.cssText += `
                 padding: 0.75rem 1.5rem !important;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-                color: #ffffff !important;
-                border: none !important;
+                background: #fff !important;
+                color: #0a0a0a !important;
+                border: 1px solid rgba(255, 255, 255, 0.9) !important;
                 font-size: 0.875rem !important;
                 font-weight: 500 !important;
-                border-radius: 6px !important;
+                border-radius: 0 !important;
             `;
         }
     });
