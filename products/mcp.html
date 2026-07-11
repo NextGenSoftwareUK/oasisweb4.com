@@ -336,8 +336,8 @@
                 <div class="code-intro">
                     <h3 class="code-title">Quick Setup</h3>
                     <p class="code-description">
-                        Install the MCP Server from source in three steps. Configure your IDE, restart, and start using natural language commands. 
-                        NPM package installation coming soon.
+                        Install the .NET MCP Server from source in three steps. Requires .NET 8 SDK. Configure your IDE, restart, and start using natural language commands.
+                        NuGet tool package coming soon.
                     </p>
                 </div>
             </div>
@@ -359,21 +359,18 @@
                 <div class="code-content">
                     <div class="code-block active" data-code="install">
                         <div class="code-block-header">
-                            <span class="code-block-title">Step 1: Install from Source</span>
-                            <span class="code-block-subtitle">Clone and build the server</span>
+                            <span class="code-block-title">Step 1: Clone &amp; Build (.NET)</span>
+                            <span class="code-block-subtitle">Requires .NET 8 SDK or later</span>
                         </div>
-                        <pre><code># Clone the repository
+                        <pre><code># Clone the OASIS repository
 git clone https://github.com/NextGenSoftwareUK/OASIS.git
-cd OASIS/MCP
-
-# Install dependencies
-npm install
+cd OASIS/WEB6/NextGenSoftware.OASIS.MCP.Server
 
 # Build the server
-npm run build
+dotnet build -c Release
 
-# Note: NPM package coming soon!
-# Future: npm install -g @oasis-unified/mcp-server</code></pre>
+# Or run directly (dev mode)
+dotnet run</code></pre>
                     </div>
                     <div class="code-block" data-code="configure">
                         <div class="code-block-header">
@@ -384,9 +381,13 @@ npm run build
 // VS Code: .vscode/mcp.json
 {
   "mcpServers": {
-    "oasis-unified": {
-      "command": "node",
-      "args": ["/absolute/path/to/OASIS/MCP/dist/index.js"],
+    "oasis": {
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "/absolute/path/to/OASIS/WEB6/NextGenSoftware.OASIS.MCP.Server"
+      ],
       "env": {
         "OASIS_API_URL": "https://api.oasisplatform.world",
         "OASIS_MCP_LICENSE_KEY": "your-license-key"
@@ -395,8 +396,8 @@ npm run build
   }
 }
 
-// Important: Use absolute path to dist/index.js
-// Get path: cd OASIS/MCP && pwd</code></pre>
+// Tip: use the published binary for faster startup:
+// "command": "/path/to/publish/NextGenSoftware.OASIS.MCP.Server"</code></pre>
                     </div>
                     <div class="code-block" data-code="verify">
                         <div class="code-block-header">
@@ -421,10 +422,10 @@ npm run build
             
             <div style="margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--border-color); background-color: var(--bg-secondary);">
                     <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                        <strong style="color: var(--text-primary);">Coming Soon:</strong> NPM package installation will be available soon. 
-                        For now, install from source. Once published, you'll be able to install with 
-                        <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">npm install -g @oasis-unified/mcp-server</code>.
-                        <a href="https://github.com/NextGenSoftwareUK/OASIS" target="_blank" style="color: var(--text-primary); text-decoration: underline; margin-left: 0.5rem;">View on GitHub</a>
+                        <strong style="color: var(--text-primary);">NuGet package coming soon:</strong> A self-contained NuGet tool package will be published so you can install with
+                        <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">dotnet tool install -g NextGenSoftware.OASIS.MCP.Server</code>.
+                        For now, build from source above.
+                        <a href="https://github.com/NextGenSoftwareUK/OASIS/tree/master/WEB6/NextGenSoftware.OASIS.MCP.Server" target="_blank" style="color: var(--text-primary); text-decoration: underline; margin-left: 0.5rem;">View on GitHub</a>
                     </p>
             </div>
         </div>
