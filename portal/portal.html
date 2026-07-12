@@ -7529,18 +7529,6 @@
             </div>
 
             <form id="avatarAuthForm" class="avatar-auth-form" onsubmit="handleAvatarAuthSubmit(event)">
-                <div id="avatarAuthPrivacyMode" class="avatar-auth-privacy-mode" style="display: none;">
-                    <div class="avatar-auth-privacy-content">
-                        <input type="checkbox" id="privacyModeCheckbox" checked onchange="togglePrivacyMode()" />
-                        <label for="privacyModeCheckbox" class="avatar-auth-privacy-label">
-                            <strong>Privacy Mode</strong> (Recommended)
-                            <p class="avatar-auth-privacy-desc">
-                                Creates anonymous avatar with fake email. No real identity required. Auto-verifies for immediate access.
-                            </p>
-                        </label>
-                    </div>
-                </div>
-
                 <div class="avatar-auth-field">
                     <label class="avatar-auth-field-label" id="avatarUsernameLabel">Username or email</label>
                     <input 
@@ -7976,13 +7964,12 @@
         function switchAvatarAuthMode(mode) {
             currentAvatarAuthMode = mode;
             const tabs = document.querySelectorAll('.avatar-auth-tab');
-            const privacyModeDiv = document.getElementById('avatarAuthPrivacyMode');
             const emailField = document.getElementById('avatarAuthEmailField');
             const nameFields = document.getElementById('avatarAuthNameFields');
             const usernameLabel = document.getElementById('avatarUsernameLabel');
             const usernameHint = document.getElementById('avatarUsernameHint');
             const submitText = document.getElementById('avatarAuthSubmitText');
-            
+
             tabs.forEach(tab => {
                 if (tab.getAttribute('data-mode') === mode) {
                     tab.classList.add('active');
@@ -7990,48 +7977,20 @@
                     tab.classList.remove('active');
                 }
             });
-            
+
             if (mode === 'register') {
-                if (privacyModeDiv) privacyModeDiv.style.display = 'block';
                 if (usernameLabel) usernameLabel.textContent = 'Username';
-                if (usernameHint) usernameHint.style.display = privacyMode ? 'block' : 'none';
-                if (emailField) emailField.style.display = privacyMode ? 'none' : 'block';
-                if (nameFields) nameFields.style.display = privacyMode ? 'none' : 'block';
+                if (usernameHint) usernameHint.style.display = 'none';
+                if (emailField) emailField.style.display = 'block';
+                if (nameFields) nameFields.style.display = 'block';
                 if (submitText) submitText.textContent = 'Create avatar';
             } else {
-                if (privacyModeDiv) privacyModeDiv.style.display = 'none';
                 if (usernameLabel) usernameLabel.textContent = 'Username or email';
                 if (usernameHint) usernameHint.style.display = 'none';
                 if (emailField) emailField.style.display = 'none';
                 if (nameFields) nameFields.style.display = 'none';
                 if (submitText) submitText.textContent = 'Sign in';
             }
-        }
-
-        function togglePrivacyMode() {
-            const checkbox = document.getElementById('privacyModeCheckbox');
-            privacyMode = checkbox ? checkbox.checked : true;
-            
-            if (currentAvatarAuthMode === 'register') {
-                const emailField = document.getElementById('avatarAuthEmailField');
-                const nameFields = document.getElementById('avatarAuthNameFields');
-                const usernameHint = document.getElementById('avatarUsernameHint');
-                
-                if (emailField) emailField.style.display = privacyMode ? 'none' : 'block';
-                if (nameFields) nameFields.style.display = privacyMode ? 'none' : 'block';
-                if (usernameHint) usernameHint.style.display = privacyMode ? 'block' : 'none';
-            }
-        }
-
-        // Generate fake email for privacy mode
-        function generateFakeEmail(username) {
-            const randomId = Math.random().toString(36).substring(2, 9);
-            return `${username}_${randomId}@privacy.local`;
-        }
-
-        // Generate random username
-        function generateRandomUsername() {
-            return `privacy_${Math.random().toString(36).substring(2, 11)}`;
         }
 
         async function handleAvatarAuthSubmit(event) {
@@ -8063,7 +8022,6 @@
                     if (!username) {
                         throw new Error('Enter your username/email and password.');
                     }
-                    // Use window.authAPI to ensure it's available across script scopes
                     if (!window.authAPI) {
                         throw new Error('Authentication API not available. Please refresh the page.');
                     }
@@ -8071,24 +8029,12 @@
                 } else {
                     // Register
                     let finalUsername = username;
-                    let email = '';
-                    let firstName = '';
-                    let lastName = '';
-                    
-                    if (privacyMode) {
-                        // Privacy mode: Generate fake email and random username if needed
-                        finalUsername = username || generateRandomUsername();
-                        email = generateFakeEmail(finalUsername);
-                        firstName = 'Privacy';
-                        lastName = 'User';
-                    } else {
-                        email = document.getElementById('avatarEmail').value.trim();
-                        firstName = document.getElementById('avatarFirstName')?.value.trim() || '';
-                        lastName = document.getElementById('avatarLastName')?.value.trim() || '';
-                        
-                        if (!email) {
-                            throw new Error('Email is required when privacy mode is off.');
-                        }
+                    let email = document.getElementById('avatarEmail').value.trim();
+                    let firstName = document.getElementById('avatarFirstName')?.value.trim() || '';
+                    let lastName = document.getElementById('avatarLastName')?.value.trim() || '';
+
+                    if (!email) {
+                        throw new Error('Email is required.');
                     }
                     
                     // Use window.authAPI to ensure it's available across script scopes
