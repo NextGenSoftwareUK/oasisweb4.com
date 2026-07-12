@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCP Server for IDEs - OASIS</title>
-    <meta name="description" content="MCP Server - Access OASIS, OpenSERV, and STAR platforms directly from Cursor, VS Code, and other MCP-compatible IDEs. 60+ tools for NFT minting, wallet management, smart contracts, and more.">
+    <meta name="description" content="MCP Server - Access OASIS, OpenSERV, and STAR platforms directly from Cursor, VS Code, and other MCP-compatible IDEs. 111 tools covering WEB4–WEB10: NFT minting, AI orchestration, holonic memory, and more.">
     <link rel="stylesheet" href="../styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -187,9 +187,8 @@
                 </p>
                 <div class="hero-description">
                     <p>
-                        The MCP Server brings 60+ powerful tools directly to Cursor, VS Code, 
-                        and other MCP-compatible IDEs, enabling natural language interaction with OASIS, OpenSERV, 
-                        and STAR platforms. Mint NFTs, manage wallets, generate smart contracts, and discover AI agents, all through conversation.
+                        The MCP Server brings <strong>111 typed tools</strong> directly to Cursor, VS Code,
+                        and other MCP-compatible IDEs, covering the full OASIS stack from WEB4 through WEB10. Mint NFTs, manage wallets, orchestrate AI agents with FAHRN, store holonic memory, and discover AI agents — all through conversation.
                     </p>
                 </div>
                 <div class="hero-actions">
@@ -448,6 +447,25 @@ dotnet run</code></pre>
                         Both put <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">oasis-mcp</code> on your PATH.
                         <a href="https://github.com/NextGenSoftwareUK/OASIS/tree/master/WEB6/NextGenSoftware.OASIS.MCP.Server" target="_blank" style="color: var(--text-primary); text-decoration: underline; margin-left: 0.5rem;">View on GitHub</a>
                     </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HTTP MCP Transport Section -->
+    <section class="section" data-section="03b">
+        <div class="container">
+            <div style="padding: 2rem; border: 1px solid var(--border-color); background-color: var(--bg-secondary);">
+                <h3 style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.75rem; letter-spacing: -0.01em;">HTTP MCP Transport — Cloud &amp; Remote Access</h3>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
+                    In addition to the stdio-based IDE server, the WEB6 API exposes an <strong style="color: var(--text-primary);">HTTP MCP transport</strong> for cloud-hosted agents, <code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">claude.ai</code> connectors, and any client that cannot use stdio:
+                </p>
+                <pre style="background: var(--bg-primary); padding: 1.25rem; overflow-x: auto; font-size: 0.8125rem; line-height: 1.7; margin-bottom: 1.25rem;"><code>GET  https://api.web6.oasisomniverse.one/mcp              — establishes SSE stream
+POST https://api.web6.oasisomniverse.one/mcp              — MCP JSON-RPC tool calls
+GET  https://api.web6.oasisomniverse.one/.well-known/mcp.json   — auto-discovery document
+GET  https://api.web6.oasisomniverse.one/.well-known/agent.json — A2A agent card</code></pre>
+                <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                    <strong style="color: var(--text-primary);">Note:</strong> These endpoints — along with the SSE streaming completion (<code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">/v1/complete/stream</code>), telemetry stream, A2A event stream, and WebSocket session — are intentionally <strong style="color: var(--text-primary);">not shown in Swagger UI</strong> because they use streaming transports the interactive explorer cannot represent. They work as documented; call them directly with <code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">curl</code> or point your MCP client at the discovery URL and it configures itself automatically.
+                </p>
             </div>
         </div>
     </section>
