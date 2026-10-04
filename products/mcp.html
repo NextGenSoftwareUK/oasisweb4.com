@@ -495,8 +495,8 @@ dotnet run</code></pre>
     "oasis": {
       "command": "oasis-mcp",
       "env": {
-        "OASIS_API_URL": "https://api.web4.oasisomniverse.one",
-        "OASIS_MCP_LICENSE_KEY": "your-license-key"
+        "OASIS_USERNAME": "your-avatar-username-or-email",
+        "OASIS_PASSWORD": "your-avatar-password"
       }
     }
   }
@@ -504,7 +504,9 @@ dotnet run</code></pre>
 
 // After build from source — point at the project:
 // "command": "dotnet",
-// "args": ["run", "--project", "/absolute/path/to/OASIS/WEB6/NextGenSoftware.OASIS.MCP.Server"]</code></pre>
+// "args": ["run", "--project", "/absolute/path/to/OASIS/WEB6/NextGenSoftware.OASIS.MCP.Server"]
+
+// Prefer a token? Use "OASIS_BEARER_TOKEN": "&lt;your OASIS JWT&gt;" instead of username/password.</code></pre>
                     </div>
                     <div class="code-block" data-code="verify">
                         <div class="code-block-header">
@@ -522,7 +524,8 @@ dotnet run</code></pre>
 // Troubleshooting:
 // - Check Cursor logs: View → Output → MCP
 // - Verify path is absolute in mcp.json
-// - Ensure OASIS API is accessible</code></pre>
+// - Check your avatar username/password (or bearer token)
+// - Calls that act on another avatar need a Wizard avatar</code></pre>
                     </div>
                 </div>
             </div>
@@ -531,8 +534,8 @@ dotnet run</code></pre>
                     <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
                         <strong style="color: var(--text-primary);">Two install options:</strong>
                         <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">npm install -g @oasisomniverse/mcp-server</code> (no .NET SDK needed) or
-                        <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">dotnet tool install -g NextGenSoftware.OASIS.MCP.Server</code> (requires .NET 8+).
-                        Both put <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">oasis-mcp</code> on your PATH.
+                        <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">dotnet tool install -g NextGenSoftware.OASIS.MCP.Server</code> (requires .NET 10).
+                        Both put <code style="background: var(--bg-primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8125rem;">oasis-mcp</code> on your PATH. It is a lightweight proxy: every tool runs in the hosted OASIS service as your avatar and is billed to your OASIS subscription, so no local database, DNA or AI provider keys are needed.
                         <a href="https://github.com/NextGenSoftwareUK/OASIS/tree/master/WEB6/NextGenSoftware.OASIS.MCP.Server" target="_blank" style="color: var(--text-primary); text-decoration: underline; margin-left: 0.5rem;">View on GitHub</a>
                     </p>
             </div>
@@ -545,13 +548,13 @@ dotnet run</code></pre>
             <div style="padding: 2rem; border: 1px solid var(--border-color); background-color: var(--bg-secondary);">
                 <h3 style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.75rem; letter-spacing: -0.01em;">HTTP MCP Transport — Cloud &amp; Remote Access</h3>
                 <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
-                    In addition to the stdio-based IDE server, the WEB6 API exposes an <strong style="color: var(--text-primary);">HTTP MCP transport</strong> for cloud-hosted agents, <code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">claude.ai</code> connectors, and any client that cannot use stdio:
+                    The IDE server above is a proxy to this hosted endpoint. Call it directly from cloud-hosted agents, <code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">claude.ai</code> connectors, and any client that cannot use stdio:
                 </p>
-                <pre style="background: var(--bg-primary); padding: 1.25rem; overflow-x: auto; font-size: 0.8125rem; line-height: 1.7; margin-bottom: 1.25rem;"><code>GET  https://api.web6.oasisomniverse.one/mcp              — establishes SSE stream
-POST https://api.web6.oasisomniverse.one/mcp              — MCP JSON-RPC tool calls
+                <pre style="background: var(--bg-primary); padding: 1.25rem; overflow-x: auto; font-size: 0.8125rem; line-height: 1.7; margin-bottom: 1.25rem;"><code>POST https://api.web6.oasisomniverse.one/mcp              — MCP JSON-RPC (Streamable HTTP); send Authorization: Bearer &lt;OASIS JWT&gt;
 GET  https://api.web6.oasisomniverse.one/.well-known/mcp.json   — auto-discovery document
 GET  https://api.web6.oasisomniverse.one/.well-known/agent.json — A2A agent card</code></pre>
                 <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                    <strong style="color: var(--text-primary);">Billing &amp; access:</strong> each tool call runs as the avatar in your bearer token and counts against your OASIS subscription (AI tools on measured tokens, everything else as one API call; listing tools is free). Send an <code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">Idempotency-Key</code> header per tool call and reuse it on retry so a retry is never billed twice. Tools only act on your own avatar unless you are a Wizard.<br><br>
                     <strong style="color: var(--text-primary);">Note:</strong> These endpoints — along with the SSE streaming completion (<code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">/v1/complete/stream</code>), telemetry stream, A2A event stream, and WebSocket session — are intentionally <strong style="color: var(--text-primary);">not shown in Swagger UI</strong> because they use streaming transports the interactive explorer cannot represent. They work as documented; call them directly with <code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">curl</code> or point your MCP client at the discovery URL and it configures itself automatically.
                 </p>
             </div>
@@ -766,62 +769,19 @@ GET  https://api.web6.oasisomniverse.one/.well-known/agent.json — A2A agent ca
         </div>
         <div class="container">
             <h2 class="section-title">Get Started</h2>
-            <p class="section-subtitle">Request your license key to begin using the MCP Server. No credit card required for the Free tier.</p>
-            
-            <div style="max-width: 700px; margin: 3rem auto 0;">
-                <form id="licenseForm" style="display: grid; gap: 1.5rem;">
-                    <div style="display: grid; gap: 0.75rem;">
-                        <label style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 400; text-transform: uppercase; letter-spacing: 0.05em;">
-                            Email Address
-                        </label>
-                        <input 
-                            type="email" 
-                            placeholder="your.email@example.com" 
-                            required
-                            style="padding: 1rem 1.25rem; background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit; font-size: 0.9375rem; transition: all 0.2s;"
-                            onfocus="this.style.borderColor='var(--text-primary)'; this.style.outline='none';"
-                            onblur="this.style.borderColor='var(--border-color)';"
-                        >
-                    </div>
-                    
-                    <div style="display: grid; gap: 0.75rem;">
-                        <label style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 400; text-transform: uppercase; letter-spacing: 0.05em;">
-                            Select Plan
-                        </label>
-                        <select 
-                            required
-                            style="padding: 1rem 1.25rem; background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit; font-size: 0.9375rem; cursor: pointer; transition: all 0.2s;"
-                            onfocus="this.style.borderColor='var(--text-primary)'; this.style.outline='none';"
-                            onblur="this.style.borderColor='var(--border-color)';"
-                        >
-                            <option value="">Choose a plan</option>
-                            <option value="trial">14-Day Trial - Free (Full access, no credit card)</option>
-                            <option value="free">Free - $0/month (100 API calls)</option>
-                            <option value="bronze">Bronze - $9/month (10,000 API calls)</option>
-                            <option value="silver">Silver - $29/month (100,000 API calls)</option>
-                            <option value="gold">Gold - $99/month (1,000,000 API calls)</option>
-                            <option value="enterprise">Enterprise - Custom (Unlimited)</option>
-                        </select>
-                    </div>
-                    
-                    <button 
-                        type="submit" 
-                        class="pricing-cta"
-                        style="margin-top: 0.5rem; padding: 1rem 2rem; font-size: 0.9375rem;"
-                    >
-                        Request License Key
-                    </button>
-                </form>
-                
-                <div style="margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--border-color); background: var(--bg-secondary);">
-                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                        <strong style="color: var(--text-primary);">What happens next?</strong><br>
-                        Your license key will be sent to your email within minutes. Once received, add it to your MCP configuration 
-                        file and restart your IDE. The 14-Day Trial and Free tier require no payment information. 
-                        Start with the trial to experience all features, then choose a plan that fits your needs.<br><br>
-                        <strong style="color: var(--text-primary);">Note:</strong> MCP Server uses the same subscription as the OASIS API. 
-                        Your subscription works for both direct API access and MCP Server access: same limits, same features.
+            <p class="section-subtitle">The MCP Server uses your OASIS avatar and subscription: no separate license key.</p>
+
+            <div style="max-width: 700px; margin: 3rem auto 0; display: grid; gap: 1.5rem;">
+                <div style="padding: 1.5rem; border: 1px solid var(--border-color); background: var(--bg-secondary);">
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; margin: 0;">
+                        <strong style="color: var(--text-primary);">1. Create your OASIS avatar</strong>: free, takes a minute.<br>
+                        <strong style="color: var(--text-primary);">2. Choose a plan</strong>: start on Free, or subscribe for higher limits. Your plan covers direct API calls and MCP tool calls alike.<br>
+                        <strong style="color: var(--text-primary);">3. Install and sign in</strong>: run <code style="background: var(--bg-primary); padding: 0.15rem 0.4rem; font-size: 0.8125rem;">npm install -g @oasisomniverse/mcp-server</code>, put your avatar username and password in your IDE's MCP config (above), and restart your IDE.
                     </p>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="../avatar/register.html" class="pricing-cta" style="padding: 1rem 2rem; font-size: 0.9375rem;">Create Avatar</a>
+                    <a href="../pricing.html#plans" class="pricing-cta" style="padding: 1rem 2rem; font-size: 0.9375rem;">View Plans</a>
                 </div>
             </div>
         </div>
@@ -868,13 +828,6 @@ GET  https://api.web6.oasisomniverse.one/.well-known/agent.json — A2A agent ca
 
     <script src="../script.js"></script>
     <script>
-        // License form handler
-        document.getElementById('licenseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // TODO: Integrate with license server/Stripe
-            alert('License key request submitted. Check your email for your license key.');
-        });
-
         // Code tab switching
         document.querySelectorAll('.code-tab').forEach(tab => {
             tab.addEventListener('click', function() {
