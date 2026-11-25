@@ -151,13 +151,13 @@
 - Asset/app store and core development platform
 
 **Key Features**:
-- **STARNETHolon Management**: Create, edit, delete, publish, download
+- **Smart Brick Management**: Create, edit, delete, publish, download
 - **DNA System**: Dependency management and linking
-- **STARNETHolon Types**: OAPPs, Templates, Runtimes, Libraries, NFTs, GeoNFTs, Quests, Missions, Chapters, InventoryItems, CelestialSpaces, CelestialBodies, Zomes, Holons, MetaData
+- **Smart Brick Types**: OAPPs, Templates, Runtimes, Libraries, NFTs, GeoNFTs, Quests, Missions, Chapters, InventoryItems, CelestialSpaces, CelestialBodies, Zomes, Holons, MetaData
 - **Version Control**: Manage versions and rollbacks
 - **STARNET Integration**: Publish and download from STARNET
 
-**STARNETHolon Types**:
+**Smart Brick Types**:
 - OAPPs (OASIS Applications)
 - Templates
 - Runtimes
